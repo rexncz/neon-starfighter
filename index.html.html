@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050c14">
+<meta name="description" content="A self-contained neon arcade shooter. Dodge, chain kills, defeat bosses and upgrade your starfighter.">
+<link rel="icon" href="data:,">
+<title>Neon Starfighter</title>
+<style>
+:root{color-scheme:dark;--bg:#050c14;--panel:#09141f;--line:#1d3c4b;--cyan:#59e8f5;--dim:#88a7b7;--orange:#ffad5b;--red:#ff627c;--green:#8cf2be;--mono:ui-monospace,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#eaf8ff;font-family:Arial,Helvetica,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer;min-height:46px;border:1px solid var(--line);background:#091723;color:var(--cyan);padding:12px 20px;font:700 12px var(--mono);letter-spacing:1.5px;text-transform:uppercase;transition:background .15s,border-color .15s}button:hover{background:#122b39;border-color:var(--cyan)}button:disabled{cursor:default;opacity:.4}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:4px}button.primary{background:var(--orange);border-color:var(--orange);color:#23160e}button.primary:hover{background:#ffc48a}.hidden,[hidden]{display:none!important}.muted{color:var(--dim)}.mono{font-family:var(--mono)}
+#app{height:100vh;height:100dvh;min-height:360px;position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 75% 40%,#102334 0,transparent 53%)}#sky{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}.top{height:78px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);margin:0 4%;gap:16px}.brand{font-size:24px;letter-spacing:3px;font-weight:900;font-style:italic;color:var(--cyan);line-height:.9}.brand small{display:block;font:9px var(--mono);letter-spacing:5px;margin-top:8px}.top nav{display:flex;gap:10px}.top button{background:transparent;font-size:10px;padding:9px 12px;min-height:40px}.shell{width:min(1120px,92%);height:calc(100% - 78px);margin:auto;display:flex;flex-direction:column}.view{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-color:var(--line) var(--bg)}#home{display:grid;grid-template-columns:46% 54%;align-items:center;position:relative;overflow:auto;padding:30px 0}.brief{padding:10px 30px 10px 0;position:relative;z-index:1}h1{font-size:clamp(36px,4.7vw,66px);line-height:.94;letter-spacing:-2px;margin:0 0 18px;font-weight:900}h1 span{color:var(--cyan);display:block;font-style:italic}h1 small{font-size:.58em;letter-spacing:1px;display:block;margin-top:10px}p{line-height:1.6;color:var(--dim)}.tagline{font-size:17px;margin:0 0 26px}.actions{display:flex;gap:10px;flex-wrap:wrap}.brief .actions{flex-direction:column;max-width:365px}.brief .actions button{text-align:left;display:flex;justify-content:space-between;font-size:14px;min-height:55px}.brief .actions button span{font-size:20px;line-height:18px}.ship-art{width:100%;max-height:450px;min-height:180px;filter:drop-shadow(0 0 13px #36ddef30)}.art-wrap{position:relative;display:grid;place-items:center}.art-label{position:absolute;bottom:0;font:10px var(--mono);color:var(--dim);letter-spacing:2px}.mission-list{margin-top:28px;max-width:365px}.mission{padding:13px 0;border-top:1px solid var(--line)}.mission-label{display:flex;justify-content:space-between;gap:10px;font:10px var(--mono);letter-spacing:.6px;margin-bottom:9px}.mission-label strong{color:var(--orange);font-weight:400}.track{height:3px;background:#19303e;overflow:hidden}.track i{display:block;height:100%;background:var(--cyan);width:0}.help-strip{display:flex;justify-content:space-between;gap:15px;font:10px var(--mono);color:var(--dim);padding:18px 0;border-top:1px solid var(--line);letter-spacing:.5px}.help-strip b{color:#d9f4ff;font-weight:400}kbd{border:1px solid #486675;padding:3px 5px;color:#d9f4ff;font:10px var(--mono)}.profile{border-top:1px solid var(--line);display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:20px;padding:20px 0 23px;font:11px var(--mono);letter-spacing:1px}.profile>div+div{border-left:1px solid var(--line);padding-left:24px}.profile label{display:block;color:var(--dim);font-size:9px;margin-bottom:8px}.profile strong{font-size:18px;font-weight:400}.profile .track{max-width:165px;margin-top:8px}.credit{color:var(--orange)}
+.page{max-width:740px;margin:0 auto;padding:34px 0 25px;width:100%}.page h2{font-size:32px;letter-spacing:-1px;margin:0 0 8px}.page>p{font-size:13px;margin:0 0 24px}.page-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}.upgrade{display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:16px;border-top:1px solid var(--line);padding:20px 0}.upgrade-icon{color:var(--cyan);font:26px var(--mono);text-align:center}.upgrade h3{font-size:16px;margin:0 0 6px}.upgrade p{font-size:12px;margin:0}.upgrade .track{margin-top:12px;max-width:230px}.upgrade button{letter-spacing:.5px;min-width:112px}.level{font:10px var(--mono);color:var(--cyan);margin-left:9px}.setting{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 0;border-top:1px solid var(--line);font-size:13px}.setting small{display:block;color:var(--dim);margin-top:6px;line-height:1.5}.setting input[type=checkbox]{width:24px;height:24px;accent-color:var(--cyan);flex-shrink:0}.setting input[type=range]{width:130px;accent-color:var(--cyan)}.note{font:11px/1.7 var(--mono);color:var(--dim);border-left:2px solid var(--cyan);padding:10px 15px;background:#0a1923;margin:18px 0}.backup-actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}textarea{width:100%;height:95px;resize:vertical;background:#040b12;color:var(--cyan);border:1px solid var(--line);padding:12px;font:11px var(--mono)}.inline-status{font:11px/1.6 var(--mono);color:var(--green);min-height:20px}.achievement{display:flex;justify-content:space-between;gap:10px;padding:15px 0;border-top:1px solid var(--line);font-size:12px}.achievement span{color:var(--dim)}.achievement.done{color:var(--orange)}
+#play{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at 50% 45%,#102130,#050c14 70%)}#gameCanvas{display:block;position:absolute;inset:0;width:100%;height:100%;touch-action:none}.hud{position:absolute;top:max(16px,env(safe-area-inset-top));left:5%;right:5%;display:grid;grid-template-columns:1fr auto 1fr;gap:16px;pointer-events:none;font:10px var(--mono);letter-spacing:1px}.hud strong{display:block;font-size:25px;letter-spacing:0;margin:5px 0}.hud-center{text-align:center}.hp{height:5px;background:#482333;width:min(125px,22vw);margin:9px 0}.hp i{display:block;background:var(--cyan);height:100%}.hud-right{text-align:right}.hud-right .hp{margin-left:auto}.hud button{pointer-events:auto;min-height:38px;padding:7px 12px;font-size:10px}.combo{color:var(--orange);font:11px var(--mono)}.combo .track{margin-top:7px;max-width:115px}.combo .track i{background:var(--orange)}#bossHud{position:absolute;top:112px;left:25%;right:25%;text-align:center;font:10px var(--mono);color:var(--red)}#bossHud .track{height:5px;margin-top:8px}#bossHud i{background:var(--red)}#waveToast{position:absolute;top:32%;left:0;right:0;text-align:center;pointer-events:none;color:var(--cyan);text-shadow:0 2px 20px #000;font:700 clamp(17px,3vw,27px) var(--mono);letter-spacing:3px;opacity:0;transition:opacity .15s}#waveToast small{display:block;font-size:11px;color:#d1eaf4;letter-spacing:1px;margin-top:12px}#flightHint{position:absolute;bottom:24px;left:0;right:0;text-align:center;font:10px var(--mono);color:#8aa6b7;pointer-events:none}.flight-controls{position:absolute;inset:0;pointer-events:none}.flight-controls button{position:absolute;bottom:max(42px,env(safe-area-inset-bottom));width:80px;height:64px;background:#081824df;pointer-events:auto;touch-action:none;letter-spacing:1px;padding:6px;border-color:#458095}.flight-controls button small{display:block;font:9px var(--mono);margin-top:6px;color:#b3cfdb}.flight-controls #dashBtn{left:5%;color:var(--cyan)}.flight-controls #empBtn{right:5%;color:var(--orange);border-color:#846246}.flight-controls button.editing{border:2px dashed var(--orange);background:#3d2c1d}.flight-controls button:disabled{opacity:.5}#layoutBar{position:absolute;top:105px;left:5%;right:5%;z-index:5;text-align:center;background:#081824;padding:16px;border:1px solid var(--line)}#layoutBar p{margin:0 0 12px;font-size:12px}
+.overlay{position:absolute;inset:0;z-index:5;background:#040b13e8;display:grid;place-items:center;padding:24px;overflow:auto}.dialog{width:min(100%,440px);border:1px solid var(--line);padding:32px;background:#091620;box-shadow:0 20px 80px #0008}.dialog h2{font-size:32px;margin:0 0 12px;letter-spacing:-1px}.dialog p{font-size:13px;margin:0 0 23px}.dialog .actions{flex-direction:column}.dialog .actions button{width:100%}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0;font:11px var(--mono);color:var(--dim)}.result-grid strong{display:block;color:#eaf8ff;font-size:23px;margin-top:8px}.result-grid .credit{color:var(--orange)}#saveStatus{position:absolute;bottom:4px;right:12px;z-index:8;font:9px var(--mono);color:#82b39e;pointer-events:none}#storageWarning{position:absolute;bottom:0;left:0;right:0;background:#4d3020;color:#ffe5c6;padding:12px 18px;z-index:9;font:11px/1.5 var(--mono);text-align:center}#storageWarning button{min-height:30px;font-size:10px;padding:4px 10px;margin-left:12px;color:var(--orange);border-color:#8b6843}#toast{position:absolute;top:88px;left:50%;transform:translateX(-50%);z-index:10;background:#0e2a31;border:1px solid #397780;color:#d6fcf5;padding:14px 22px;max-width:90%;font:12px/1.5 var(--mono);text-align:center;pointer-events:none}#conflict{z-index:20}
+@media(max-width:650px){.top{height:65px;margin:0 6%}.brand{font-size:19px}.brand small{font-size:7px;letter-spacing:4px}.top nav{gap:5px}.top button{font-size:9px;letter-spacing:.5px;padding:8px}.shell{width:88%;height:calc(100% - 65px)}#home{grid-template-columns:1fr;align-content:start;padding:24px 0 16px;overflow:auto}.brief{display:contents}h1{font-size:36px;letter-spacing:-1px;order:0;margin-bottom:8px}h1 span{display:inline}h1 small{font-size:.52em;display:inline;margin-left:8px}.tagline{font-size:13px;order:2;margin:0 0 18px;text-align:center}.art-wrap{order:1;height:190px;margin:0 0 12px}.ship-art{height:210px;width:100%}.art-label{display:none}.brief .actions{order:3;max-width:none;gap:9px}.brief .actions button{min-height:49px;font-size:12px}.mission-list{order:4;max-width:none;margin-top:20px}.mission{padding:11px 0}.mission-label{font-size:9px}.profile{padding:15px 0 21px;gap:10px;grid-template-columns:1.2fr 1fr 1fr}.profile>div+div{padding-left:13px}.profile label{font-size:8px;letter-spacing:.4px}.profile strong{font-size:15px}.help-strip{font-size:9px;padding:12px 0;justify-content:center}.desktop-help{display:none}.page{padding-top:25px}.page h2{font-size:27px}.upgrade{grid-template-columns:30px 1fr auto;gap:9px;padding:18px 0}.upgrade h3{font-size:13px}.upgrade p{font-size:10px}.upgrade button{min-width:90px;font-size:10px;padding:10px}.level{display:block;margin:5px 0 0;font-size:9px}.upgrade-icon{font-size:22px}.setting{gap:15px}.hud{left:5%;right:5%;gap:10px;font-size:8px}.hud strong{font-size:21px}.hud button{font-size:9px;letter-spacing:.3px}.combo{font-size:9px}#bossHud{left:18%;right:18%;top:107px}#flightHint{font-size:8px;bottom:19px}.dialog{padding:24px}.dialog h2{font-size:27px}#saveStatus{font-size:8px}.flight-controls button{width:70px;height:60px}#toast{top:74px;font-size:10px;padding:10px 14px}}
+@media(max-height:650px){#home{padding-top:18px;padding-bottom:18px}.art-wrap{height:170px}.ship-art{max-height:300px}.mission-list{margin-top:16px}.profile{padding:12px 0 18px}.help-strip{padding:12px 0}h1{font-size:38px}.tagline{margin-bottom:18px}#home .actions button{min-height:45px}.hud strong{font-size:19px}.hud{top:10px}#bossHud{top:82px}#flightHint{bottom:10px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+#gameCanvas:focus-visible{outline:1px solid #224c5b;outline-offset:-1px}</style>
+</head>
+<body>
+<main id="app">
+<canvas id="sky" aria-hidden="true"></canvas>
+<header class="top"><div class="brand" aria-label="Neon Starfighter">NEON<small>STARFIGHTER</small></div><nav aria-label="Game options"><button id="soundBtn" aria-pressed="false">Sound: off</button><button id="settingsBtn">Settings</button></nav></header>
+<div class="shell" id="shell">
+<section class="view" id="home" aria-label="Flight briefing">
+<div class="brief"><h1><span>NEON</span><small>STARFIGHTER</small></h1><p class="tagline">One more wave. Make it count.</p><div class="actions"><button class="primary" id="startBtn">Launch flight <span aria-hidden="true">↗</span></button><button id="resumeBtn" hidden>Resume flight <span aria-hidden="true">→</span></button><button id="hangarBtn">Hangar <span aria-hidden="true">→</span></button></div><div id="missions" class="mission-list" aria-label="Pilot missions"></div></div>
+<div class="art-wrap"><svg class="ship-art" viewBox="0 0 500 480" aria-hidden="true"><defs><radialGradient id="halo"><stop stop-color="#2aaac1" stop-opacity=".13"/><stop offset="1" stop-color="#0a1827" stop-opacity="0"/></radialGradient><linearGradient id="hull" x2="1" y2="1"><stop stop-color="#102e40"/><stop offset="1" stop-color="#06131e"/></linearGradient><linearGradient id="exhaust" x2="0" y2="1"><stop stop-color="#a7ffff"/><stop offset="1" stop-color="#50deff" stop-opacity="0"/></linearGradient></defs><circle cx="250" cy="240" r="215" fill="url(#halo)"/><g stroke="#254958" fill="none"><circle cx="250" cy="240" r="178"/><circle cx="250" cy="240" r="150" stroke-dasharray="3 14"/><path d="M250 37v48M250 399v48M45 240h50m310 0h50"/><path d="M107 96l15 15m256 256 15 15M107 384l15-15M378 111l15-15"/></g><g fill="url(#exhaust)"><path d="M228 347h16l-8 100zM257 347h16l-8 100zM156 320h12l-6 53zM332 320h12l-6 53z"/></g><g stroke="#5ce8f5" stroke-width="1.8" fill="url(#hull)" stroke-linejoin="round"><path d="M250 66l25 152 34 57 12-68 14 13 4 63 52 55-2 29-84-28-27 29-28-17-28 17-27-29-84 28-2-29 52-55 4-63 14-13 12 68 34-57z"/><path d="M250 66v285m-25-133 25-35 25 35-5 94-20 31-20-31zM195 339l16-65m94 65-16-65M109 338l79-35m203 35-79-35M165 220l-4 100m174-100 4 100M228 347h16v-27m29 27h-16v-27"/><path d="M250 103l12 85-12-14-12 14z" fill="#17485c"/><path d="M241 223l9-15 9 15v49l-9 17-9-17z" fill="#20718a"/><path d="m118 344 64-27-5 16-58 20zM382 344l-64-27 5 16 58 20z" fill="#123e51"/></g><g fill="#8bf7ff"><circle cx="250" cy="194" r="2"/><circle cx="172" cy="289" r="2"/><circle cx="328" cy="289" r="2"/></g></svg><div class="art-label">NF–01 / INTERCEPTOR CLASS</div></div>
+</section>
+<section class="view page" id="hangar" hidden aria-label="Hangar"><div class="page-header"><div><h2>Build your edge.</h2><p class="muted mono" style="font-size:11px">Available credits <strong class="credit" id="shopCoins">0</strong></p></div><button data-home>Back</button></div><p>Permanent upgrades. Every flight gets you further.</p><div id="upgrades"></div><div class="note" id="upgradeNote">Upgrades apply to your next flight.</div><h3 style="font-size:15px;margin-top:28px">Pilot milestones</h3><div id="achievements"></div></section>
+<section class="view page" id="settings" hidden aria-label="Settings"><div class="page-header"><h2>Flight systems.</h2><button data-home>Back</button></div><label class="setting">Sound effects<input type="checkbox" id="soundSetting"></label><label class="setting">Reduced effects<small>Fewer particles, no screen shake.</small><input type="checkbox" id="effectsSetting"></label><label class="setting">On-screen action buttons<input type="checkbox" id="controlsSetting"></label><label class="setting">Left-handed controls<input type="checkbox" id="leftSetting"></label><label class="setting">Button size<input type="range" id="sizeSetting" min="0.8" max="1.4" step="0.1" aria-label="Button size"></label><div class="backup-actions"><button id="editLayoutBtn">Move action buttons</button><button id="defaultLayoutBtn">Default positions</button></div><h3 style="font-size:16px;margin:30px 0 10px">Your progress, backed up.</h3><p style="font-size:12px">Flights save automatically. Keep a backup to move between devices, browsers or website embeds. Your progress stays on this browser; it is not synced to an account.</p><div class="backup-actions"><button id="exportBtn">Export save</button><button id="importBtn">Import save</button></div><label for="saveText" class="mono muted" style="font-size:10px">BACKUP CODE</label><textarea id="saveText" spellcheck="false" placeholder="Export a backup, or paste a previously exported save code here."></textarea><p id="backupStatus" class="inline-status" role="status"></p><div class="note">Move: WASD / arrow keys, or drag anywhere in the flight area. Auto-fire is always on. Dash: Space. EMP: B. Pause: P / Esc. Drag from below your ship on touchscreens to keep it visible.</div></section>
+<div class="help-strip" id="menuHelp"><span class="desktop-help"><kbd>W A S D</kbd> / ARROWS <b>MOVE</b></span><span class="desktop-help"><kbd>SPACE</kbd> <b>DASH</b> &nbsp; <kbd>B</kbd> <b>EMP</b></span><span>DRAG TO MOVE · AUTO-FIRE ON</span></div>
+<footer class="profile"><div><label>PILOT RANK</label><strong id="rank">LVL 1</strong><div class="track" aria-hidden="true"><i id="xpFill"></i></div></div><div><label>PERSONAL BEST</label><strong id="best">0</strong></div><div><label>CREDITS</label><strong class="credit" id="coins">0</strong></div></footer>
+</div>
+<section id="play" hidden aria-label="Active flight"><canvas id="gameCanvas" tabindex="0" aria-label="Flight area. Move with arrow keys or WASD. Space to dash. B for EMP. P to pause."></canvas><div class="hud"><div><span>SCORE</span><strong id="score">0</strong><div class="combo" id="combo">CHAIN ×1<div class="track"><i id="comboFill"></i></div></div></div><div class="hud-center"><span id="wave">WAVE 01</span><strong id="waveProgress">0 / 8</strong><span id="waveType" class="muted">CLEAR THE SECTOR</span></div><div class="hud-right"><button id="pauseBtn" aria-label="Pause flight">Ⅱ Pause</button><div class="hp"><i id="hpFill"></i></div><span id="hp">100 / 100 HP</span></div></div><div id="bossHud" hidden><span id="bossName">SENTINEL</span><div class="track"><i id="bossFill"></i></div></div><div id="waveToast" role="status"></div><div id="flightHint">AUTO-FIRE ON · DRAG / WASD TO MOVE · P TO PAUSE</div><div class="flight-controls" id="flightControls"><button id="dashBtn">Dash<small id="dashText">SPACE · READY</small></button><button id="empBtn">EMP<small id="empText">B · 1 CHARGE</small></button></div><div id="layoutBar" hidden><p>Drag the action buttons to a comfortable position.</p><button id="saveLayoutBtn" class="primary">Save layout</button></div></section>
+<div class="overlay" id="pauseOverlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="pauseTitle"><h2 id="pauseTitle">Take a breather.</h2><p>Flight paused. Your progress is saved.</p><div class="actions"><button id="continueBtn" class="primary">Resume flight</button><button id="saveExitBtn">Save & main menu</button></div></section></div>
+<div class="overlay" id="resultOverlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle"><h2 id="resultTitle">Flight complete.</h2><p id="resultSub">Every flight makes you stronger.</p><div class="result-grid"><div>SCORE<strong id="finalScore">0</strong></div><div>CREDITS EARNED<strong class="credit" id="earnedCoins">+0</strong></div><div>WAVE REACHED<strong id="finalWave">1</strong></div><div>BEST CHAIN<strong id="finalCombo">×1</strong></div></div><div class="actions"><button id="restartBtn" class="primary">Fly again</button><button id="resultShopBtn">Upgrade in hangar</button><button id="resultHomeBtn">Main menu</button></div></section></div>
+<div class="overlay" id="confirmOverlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><h2 id="confirmTitle">Replace saved flight?</h2><p id="confirmText">Starting over replaces your current flight. All earned credits and upgrades stay yours.</p><div class="actions"><button id="confirmBtn" class="primary">Start new flight</button><button id="cancelBtn">Keep my progress</button></div></section></div>
+<div id="toast" role="status" hidden></div><span id="saveStatus" role="status">LOCAL SAVE READY</span><div id="storageWarning" hidden role="status"><span id="storageMessage"></span><button id="backupOpenBtn">Backup</button></div><div class="overlay" id="conflict" hidden><section class="dialog" role="alertdialog" aria-modal="true" aria-label="Another tab is active"><h2>Another tab took over.</h2><p>Your flight is paused to prevent one tab from overwriting the other. Reload this tab to load the latest save.</p><button id="reloadBtn" class="primary">Load latest save</button></section></div>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
+const finite = (n,a,b,d=0) => typeof n === 'number' && Number.isFinite(n) ? clamp(n,a,b) : d;
+const integer = (n,a,b,d=0) => Math.floor(finite(n,a,b,d));
+const fmt = n => Math.floor(n).toLocaleString('en-US');
+const KEY='neonStarfighter.v2', BACKUP=KEY+'.backup', LEGACY='neonStarfighterData';
+
+// UPGRADE CAPS REMOVED FOR EVERYTHING EXCEPT FIRE RATE
+const UPGRADE={hp:{name:'Armor plating',icon:'◇',cap:9999,base:100,desc:'+12 max HP per level'},dmg:{name:'Blaster core',icon:'↟',cap:9999,base:120,desc:'+10% weapon damage per level'},fire:{name:'Overclock',icon:'»',cap:20,base:140,desc:'+5% firing speed per level'},regen:{name:'Nano bots',icon:'✧',cap:9999,base:160,desc:'+1 HP recovered every 5 seconds per level'}};
+
+const MISSIONS=[{key:'kills',goal:30,reward:100,label:'Destroy 30 enemies'},{key:'waves',goal:5,reward:150,label:'Clear 5 waves'},{key:'bosses',goal:3,reward:220,label:'Defeat 3 bosses'}];
+const ACHIEVEMENTS=[{id:'first',name:'First contact',desc:'Destroy your first enemy',stat:'kills',goal:1},{id:'chain',name:'In the zone',desc:'Reach a ×8 chain',stat:'chain',goal:8},{id:'boss',name:'Giant slayer',desc:'Defeat a boss',stat:'bosses',goal:1},{id:'wave',name:'Deep space',desc:'Reach wave 10',stat:'wave',goal:10}];
+function defaults(){return {version:2,revision:0,coins:0,best:0,xp:0,upgrades:{hp:0,dmg:0,fire:0,regen:0},settings:{sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,controls:true,left:false,size:1,layout:null},stats:{kills:0,waves:0,bosses:0,chain:1,wave:1},missions:{kills:0,waves:0,bosses:0},achievements:[],run:null};}
+function normalize(raw){
+ if(!raw || typeof raw!=='object' || Array.isArray(raw))throw Error('Invalid save');
+ const d=defaults();d.revision=integer(raw.revision,0,1e15);d.coins=integer(raw.coins,0,1e9);d.best=integer(raw.best,0,1e12);d.xp=integer(raw.xp,0,1e12);
+ for(const k of Object.keys(UPGRADE))d.upgrades[k]=integer(raw.upgrades?.[k],0,UPGRADE[k].cap);
+ for(const k of ['sound','reduced','controls','left'])if(typeof raw.settings?.[k]==='boolean')d.settings[k]=raw.settings[k];
+ if(typeof raw.settings?.showControls==='boolean' && raw.version!==2)d.settings.controls=raw.settings.showControls;
+ d.settings.size=finite(raw.settings?.size??raw.settings?.btnScale,.8,1.4,1);
+ const layout=raw.settings?.layout;
+ if(layout && ['dash','emp'].every(k=>layout[k]&&Number.isFinite(layout[k].x)&&Number.isFinite(layout[k].y)))d.settings.layout={dash:{x:clamp(layout.dash.x,0,1),y:clamp(layout.dash.y,0,1)},emp:{x:clamp(layout.emp.x,0,1),y:clamp(layout.emp.y,0,1)}};
+ for(const k of Object.keys(d.stats))d.stats[k]=integer(raw.stats?.[k],0,1e9,d.stats[k]);
+ for(const m of MISSIONS)d.missions[m.key]=integer(raw.missions?.[m.key],0,1e7);
+ d.achievements=ACHIEVEMENTS.filter(a=>Array.isArray(raw.achievements)&&raw.achievements.includes(a.id)).map(a=>a.id);
+ d.run=validateRun(raw.run);return d;
+}
+function entityList(list,limit,kind){
+ if(!Array.isArray(list))return [];
+ return list.slice(0,limit).filter(e=>e&&Number.isFinite(e.x)&&Number.isFinite(e.y)).map(e=>{
+  const o={x:finite(e.x,-200,800),y:finite(e.y,-200,1100),px:finite(e.px,-200,800,e.x),py:finite(e.py,-200,1100,e.y),vx:finite(e.vx,-1000,1000),vy:finite(e.vy,-1500,1500),r:finite(e.r,1,80,5),dead:false};
+  if(kind==='enemy'){Object.assign(o,{type:integer(e.type,0,3),hp:finite(e.hp,.01,1e6,1),max:finite(e.max,.01,1e6,1),t:finite(e.t,0,1e8),shot:finite(e.shot,-10,20,1),baseX:finite(e.baseX,20,580,e.x),value:integer(e.value,1,1000,10)});}
+  if(kind==='bullet')o.damage=finite(e.damage,.1,1000,10);
+  if(kind==='power')o.type=['shield','spread','rapid','repair','emp'].includes(e.type)?e.type:'repair';
+  return o;
+ });
+}
+function validateRun(r){
+ if(!r||r.version!==2||!r.player||!Number.isFinite(r.player.hp)||r.player.hp<=0)return null;
+ const p=r.player;
+ const out={version:2,seed:integer(r.seed,0,4294967295,123456),time:finite(r.time,0,1e8),score:integer(r.score,0,1e12),earned:integer(r.earned,0,1e9),kills:integer(r.kills,0,1e9),wave:integer(r.wave,1,10000,1),spawned:integer(r.spawned,0,64),cleared:integer(r.cleared,0,64),spawn:finite(r.spawn,-10,10),breakTime:finite(r.breakTime,0,3),combo:integer(r.combo,1,8,1),comboTime:finite(r.comboTime,0,4),bestCombo:integer(r.bestCombo,1,8,1),bombs:integer(r.bombs,0,3,1),bossDone:!!r.bossDone,player:{x:finite(p.x,16,584,300),y:finite(p.y,100,775,680),px:finite(p.x,16,584,300),py:finite(p.y,100,775,680),hp:finite(p.hp,.01,1000,100),max:finite(p.max,100,1000,100),damage:finite(p.damage,10,100,10),fire:finite(p.fire,.07,.3,.2),regen:finite(p.regen,1,6,1),shot:finite(p.shot,0,1),regenTime:finite(p.regenTime,0,5),inv:finite(p.inv,0,2),dash:finite(p.dash,0,.2),cooldown:finite(p.cooldown,0,2.4),dx:finite(p.dx,-1,1),dy:finite(p.dy,-1,1,-1),shield:finite(p.shield,0,12),spread:finite(p.spread,0,12),rapid:finite(p.rapid,0,12)},enemies:entityList(r.enemies,64,'enemy'),shots:entityList(r.shots,180,'bullet'),hostile:entityList(r.hostile,260,'hostile'),powers:entityList(r.powers,20,'power'),boss:null};
+ if(r.boss&&Number.isFinite(r.boss.hp)&&r.boss.hp>0){const b=r.boss;out.boss={x:finite(b.x,55,545,300),y:finite(b.y,-100,850,150),hp:finite(b.hp,.01,1e7,200),max:finite(b.max,1,1e7,200),type:integer(b.type,0,2),t:finite(b.t,0,1e8),sineT:finite(b.sineT,0,1e8),shot:finite(b.shot,-10,10,1),phase:['enter','idle','warn','down','up'].includes(b.phase)?b.phase:'enter',timer:finite(b.timer,0,20),target:finite(b.target,60,540,300),r:45,dead:false};}
+ return out;
+}
+let storageOK=true,storageNote='',conflicted=false,run=null,state='menu',page='home',lastWritten=null;
+function readSave(){
+ let any=false;
+ try{for(const key of [KEY,BACKUP,LEGACY]){const raw=localStorage.getItem(key);if(!raw)continue;any=true;try{const obj=JSON.parse(raw);if(key!==LEGACY&&obj.version!==2)continue;const d=normalize(obj);if(key===BACKUP)storageNote='Recovered your backup save. Export a fresh backup when convenient.';if(key===LEGACY)storageNote='Previous credits and upgrades imported. Welcome back, pilot.';if(key===KEY)lastWritten=raw;return d;}catch{}}}
+ catch{storageOK=false;storageNote='Browser storage is blocked. Progress lasts only until this page closes. Export a backup before leaving.';}
+ if(any&&storageOK)storageNote='Saved data could not be read. You can restore an exported backup in Settings.';
+ return defaults();
+}
+let data=readSave();
+function snapshot(){return run?JSON.parse(JSON.stringify(run)):null;}
+function save(){
+ if(conflicted)return false;
+ if(lastWritten){try{const current=localStorage.getItem(KEY);if(current&&current!==lastWritten){const incoming=JSON.parse(current),ours=JSON.parse(lastWritten);if(incoming.version===2&&incoming.revision>ours.revision){takeConflict();return false;}}}catch{}}
+ data.run=snapshot();data.revision=Math.max(data.revision+1,Date.now());
+ try{
+  if(lastWritten){try{localStorage.setItem(BACKUP,lastWritten);}catch{}}
+  const raw=JSON.stringify(data);localStorage.setItem(KEY,raw);lastWritten=raw;storageOK=true;
+  $('saveStatus').textContent='PROGRESS SAVED';
+ }catch{storageOK=false;storageNote='Saving is unavailable. Progress is in memory only. Export a backup before closing or refreshing.';}
+ updateStorage();return storageOK;
+}
+function updateStorage(){
+ $('storageWarning').hidden=storageOK;$('storageMessage').textContent=storageNote;
+ const reserve=storageOK?0:$('storageWarning').offsetHeight;
+ $('shell').style.height='calc(100% - '+(width<=650?65:78)+'px - '+reserve+'px)';
+ $('flightHint').style.bottom=Math.max(19,reserve+10)+'px';
+ if(!storageOK)positionControls();
+ if(!storageOK)$('saveStatus').textContent='SAVE UNAVAILABLE · EXPORT A BACKUP';
+ const msg=$('pauseOverlay').querySelector('p');msg.textContent=storageOK?'Flight paused. Your progress is saved.':'Flight paused. Storage is blocked; export a backup from the main menu before leaving.';
+}
+let toastTime=0;
+function toast(message){$('toast').textContent=message;$('toast').hidden=false;toastTime=4;}
+function renderProfile(){
+ $('coins').textContent=fmt(data.coins);$('best').textContent=fmt(data.best);const level=Math.floor(Math.sqrt(data.xp/250))+1;
+ $('rank').textContent='LVL '+level;const floor=(level-1)**2*250,next=level**2*250;$('xpFill').style.width=(100*(data.xp-floor)/(next-floor))+'%';
+ $('resumeBtn').hidden=!run;$('startBtn').firstChild.textContent=run?'New flight ':'Launch flight ';
+ $('missions').replaceChildren();
+ for(const m of MISSIONS.slice(0,2)){const progress=data.missions[m.key]%m.goal;const el=document.createElement('div');el.className='mission';el.innerHTML='<div class="mission-label"><span></span><strong></strong></div><div class="track"><i></i></div>';el.querySelector('span').textContent=m.label.toUpperCase();el.querySelector('strong').textContent=progress+' / '+m.goal+' · +'+m.reward+' C';el.querySelector('i').style.width=progress/m.goal*100+'%';$('missions').append(el);}
+}
+const cost=k=>Math.round(UPGRADE[k].base*1.55**data.upgrades[k]/10)*10;
+function renderShop(){
+ $('shopCoins').textContent=fmt(data.coins);$('upgrades').replaceChildren();
+ for(const [k,u] of Object.entries(UPGRADE)){
+  const level=data.upgrades[k],el=document.createElement('div');el.className='upgrade';el.innerHTML='<div class="upgrade-icon" aria-hidden="true"></div><div><h3></h3><p></p><div class="track"><i></i></div></div><button></button>';el.querySelector('.upgrade-icon').textContent=u.icon;
+  el.querySelector('h3').textContent=u.name;
+  const s=document.createElement('span');s.className='level';s.textContent=u.cap===9999?'LVL '+level:'LVL '+level+' / '+u.cap;
+  el.querySelector('h3').append(s);
+  el.querySelector('p').textContent=u.desc;
+  el.querySelector('i').style.width=(u.cap===9999 ? 100 : level/u.cap*100)+'%';
+  const b=el.querySelector('button');b.textContent=level>=u.cap?'MAXED':fmt(cost(k))+' C';b.disabled=level>=u.cap||data.coins<cost(k);b.setAttribute('aria-label','Upgrade '+u.name+' for '+cost(k)+' credits');
+  b.onclick=()=>{if(level!==data.upgrades[k]||data.coins<cost(k)||level>=u.cap)return;data.coins-=cost(k);data.upgrades[k]++;save();renderProfile();renderShop();sound('reward');toast(u.name+' upgraded. Ready for your next flight.');};$('upgrades').append(el);
+ }
+ $('achievements').replaceChildren();
+ for(const a of ACHIEVEMENTS){const el=document.createElement('div');el.className='achievement'+(data.achievements.includes(a.id)?' done':'');const name=document.createElement('strong');name.textContent=(data.achievements.includes(a.id)?'✓ ':'◇ ')+a.name;const desc=document.createElement('span');desc.textContent=a.desc;el.append(name,desc);$('achievements').append(el);}
+}
+function renderSettings(){for(const [id,k] of [['soundSetting','sound'],['effectsSetting','reduced'],['controlsSetting','controls'],['leftSetting','left']])$(id).checked=data.settings[k];$('sizeSetting').value=data.settings.size;renderSound();}
+function renderSound(){$('soundBtn').textContent='Sound: '+(data.settings.sound?'on':'off');$('soundBtn').setAttribute('aria-pressed',String(data.settings.sound));}
+function showPage(name){
+ page=name;for(const p of ['home','hangar','settings'])$(p).hidden=p!==name;
+ $('menuHelp').hidden=name!=='home';$('play').hidden=true;for(const id of ['pauseOverlay','resultOverlay'])$(id).hidden=true;
+ state='menu';clearInput();renderProfile();if(name==='hangar')renderShop();if(name==='settings')renderSettings();
+ document.querySelector('header').hidden=false;$('shell').hidden=false;$(name).scrollTop=0;
+}
+function milestone(stat,amount=1){
+ data.stats[stat]=(data.stats[stat]||0)+amount;
+ const m=MISSIONS.find(x=>x.key===stat);if(m){const before=Math.floor(data.missions[stat]/m.goal);data.missions[stat]+=amount;if(Math.floor(data.missions[stat]/m.goal)>before){earn(m.reward,40);toast('MISSION COMPLETE · '+m.label+' · +'+m.reward+' C');sound('reward');}}
+ checkAchievements();
+}
+function checkAchievements(){for(const a of ACHIEVEMENTS)if(!data.achievements.includes(a.id)&&data.stats[a.stat]>=a.goal){data.achievements.push(a.id);earn(60,50);toast('MILESTONE · '+a.name+' · +60 C');sound('reward');}}
+function earn(coins,xp){data.coins=Math.min(1e9,data.coins+coins);data.xp=Math.min(1e12,data.xp+xp);if(run)run.earned+=coins;}
+run=data.run;
+let audio=null,master=null,voices=0,lastSound={};
+const SFX={
+ shot:{wave:'square',notes:[[0,600],[.1,100]],duration:.1,volume:.03},
+ hit:{wave:'sawtooth',notes:[[0,200],[.15,50]],duration:.15,volume:.05},
+ kill:{wave:'square',notes:[[0,100],[.3,10]],duration:.3,volume:.15},
+ reward:{wave:'sine',notes:[[0,400],[.1,800],[.2,1200]],duration:.3,volume:.1,curve:'linear',fade:'linear',end:0},
+ damage:{wave:'sawtooth',notes:[[0,150],[.4,40]],duration:.4,volume:.3,curve:'linear',fade:'linear',end:0},
+ dash:{wave:'sine',notes:[[0,800],[.2,100]],duration:.2,volume:.1},
+ emp:{wave:'square',notes:[[0,50],[1,10]],duration:1,volume:.4,curve:'linear',fade:'linear'},
+ launch:{wave:'sawtooth',notes:[[0,180],[.16,360],[.38,720]],duration:.42,volume:.06},
+ resume:{wave:'sine',notes:[[0,220],[.12,440]],duration:.14,volume:.06},
+ pause:{wave:'sine',notes:[[0,440],[.12,220]],duration:.14,volume:.06},
+ wave:{wave:'sine',notes:[[0,660],[.12,880],[.26,1320]],duration:.32,volume:.08,curve:'step'},
+ warning:{wave:'square',notes:[[0,220],[.12,440],[.24,220],[.36,440]],duration:.45,volume:.06,curve:'step',interval:.5},
+ shield:{wave:'sine',notes:[[0,1000],[.2,300]],duration:.22,volume:.08},
+ boss:{wave:'square',notes:[[0,100],[.65,10]],duration:.65,volume:.18},
+ enemyShot:{wave:'triangle',notes:[[0,180],[.07,90]],duration:.08,volume:.025,interval:.15},
+ empty:{wave:'sine',notes:[[0,140],[.07,100]],duration:.08,volume:.05,interval:.2}
+};
+function unlockAudio(){if(!data.settings.sound)return;try{if(!audio){const A=window.AudioContext||window.webkitAudioContext;if(!A)return;audio=new A();master=audio.createGain();master.gain.value=.24;const compressor=audio.createDynamicsCompressor();master.connect(compressor);compressor.connect(audio.destination);}if(audio.state==='suspended')audio.resume().catch(()=>{});}catch{}}
+function sound(type){
+ if(!data.settings.sound||!audio||audio.state!=='running'||voices>=10)return;
+ const tone=SFX[type];if(!tone)return;
+ const now=audio.currentTime;if(now-(lastSound[type]??-9)<(tone.interval??(type==='shot'?.095:.045)))return;lastSound[type]=now;
+ try{
+  const o=audio.createOscillator(),g=audio.createGain();o.type=tone.wave;
+  o.frequency.setValueAtTime(tone.notes[0][1],now);
+  for(const [offset,hz] of tone.notes.slice(1)){
+   if(tone.curve==='linear')o.frequency.linearRampToValueAtTime(hz,now+offset);
+   else if(tone.curve==='step')o.frequency.setValueAtTime(hz,now+offset);
+   else o.frequency.exponentialRampToValueAtTime(hz,now+offset);
+  }
+  g.gain.setValueAtTime(tone.volume,now);
+  if(tone.fade==='linear')g.gain.linearRampToValueAtTime(tone.end??.001,now+tone.duration);
+  else g.gain.exponentialRampToValueAtTime(.001,now+tone.duration);
+  o.connect(g);g.connect(master);voices++;o.onended=()=>{voices--;o.disconnect();g.disconnect();};o.start();o.stop(now+tone.duration);
+ }catch{}
+}
+const GAME_SPEED=1.5,STEP=1/60,W=600,H=800,canvas=$('gameCanvas'),ctx=canvas.getContext('2d',{alpha:false});
+const sky=$('sky'),skyctx=sky.getContext('2d',{alpha:true});
+let width=innerWidth,height=innerHeight,dpr=1,scale=1,ox=0,oy=0,accumulator=0,lastFrame=0,hudTimer=0,saveTimer=0,dirty=false;
+let particles=[],labels=[],rings=[],shake=0,flash=0,waveMessage='',waveSub='',waveMessageTime=0,editMode=false;
+let keys=new Set(),pointer={id:null,x:300,y:680,active:false},stars=[];
+function random(){run.seed=(Math.imul(1664525,run.seed)+1013904223)>>>0;return run.seed/4294967296;}
+function range(a,b){return a+(b-a)*random();}
+function clearInput(){keys.clear();pointer.active=false;pointer.id=null;}
+function waveSize(){return Math.min(28,8+(run.wave-1)*2);}
+function isBossWave(){return run.wave%4===0;}
+function announce(title,sub='',duration=2.2){waveMessage=title;waveSub=sub;waveMessageTime=duration;$('waveToast').replaceChildren(document.createTextNode(title));if(sub){const el=document.createElement('small');el.textContent=sub;$('waveToast').append(el);}}
+function newRun(){
+ const u=data.upgrades;run={version:2,seed:(Date.now()^Math.floor(Math.random()*4294967295))>>>0,time:0,score:0,earned:0,kills:0,wave:1,spawned:0,cleared:0,spawn:.4,breakTime:1.4,combo:1,comboTime:0,bestCombo:1,bombs:1,bossDone:false,player:{x:300,y:680,px:300,py:680,hp:100+u.hp*12,max:100+u.hp*12,damage:10*(1+u.dmg*.10),fire:.2/(1+u.fire*.05),regen:1+u.regen,shot:0,regenTime:0,inv:1,dash:0,cooldown:0,dx:0,dy:-1,shield:0,spread:0,rapid:0},enemies:[],shots:[],hostile:[],powers:[],boss:null};
+ particles=[];labels=[];rings=[];shake=0;flash=0;save();enterFlight();announce('WAVE 01','Clear the sector. Build your chain.');sound('launch');
+}
+function enterFlight(){
+ if(conflicted)return;
+ clearInput();$('shell').hidden=true;document.querySelector('header').hidden=true;$('play').hidden=false;
+ for(const id of ['pauseOverlay','resultOverlay','confirmOverlay'])$(id).hidden=true;
+ state='playing';accumulator=0;lastFrame=0;saveTimer=0;unlockAudio();positionControls();updateHUD();canvas.focus({preventScroll:true});
+}
+function resumeFlight(){if(!run)return;enterFlight();announce('BACK IN FLIGHT','Your checkpoint is restored.',1.5);sound('resume');}
+function pause(){if(state!=='playing')return;state='paused';clearInput();save();$('pauseOverlay').hidden=false;$('continueBtn').focus();sound('pause');}
+function finish(){
+ if(state!=='playing')return;
+ const result={score:run.score,earned:run.earned,wave:run.wave,combo:run.bestCombo};
+ const record=result.score>0&&result.score>=data.best;data.best=Math.max(data.best,result.score);burst(run.player.x,run.player.y,'#59e8f5',38);sound('damage');sound('kill');
+ run=null;state='over';clearInput();save();$('flightControls').hidden=true;$('bossHud').hidden=true;
+ $('finalScore').textContent=fmt(result.score);$('earnedCoins').textContent='+'+fmt(result.earned);$('finalWave').textContent=result.wave;$('finalCombo').textContent='×'+result.combo;
+ $('resultTitle').textContent=record?'New personal best.':'Flight complete.';$('resultSub').textContent='All earned credits are banked. Tune your ship and go again.';$('resultOverlay').hidden=false;$('restartBtn').focus();
+}
+function spawnEnemy(){
+ const type=run.wave===1?(run.spawned%4===3?1:0):Math.floor(random()*Math.min(4,2+Math.floor(run.wave/3)));
+ const x=run.wave===1&&run.spawned<3?[300,210,390][run.spawned]:range(40,560),hp=(type===2?36:14)+Math.min(250,run.wave*2.2);const e={x,y:-30,px:x,py:-30,baseX:x,vx:0,vy:type===3?250:type===2?62:90,r:type===2?21:type===3?13:17,type,hp,max:hp,t:0,shot:range(1.2,2.6),value:type===2?25:10,dead:false};
+ run.enemies.push(e);run.spawned++;
+}
+function spawnBoss(){
+ const type=(Math.floor(run.wave/4)-1)%3,max=800+Math.floor(run.wave/4)*400; // MASSIVE HP BUFF
+ run.boss={x:300,y:-65,hp:max,max,type,t:0,sineT:0,shot:0.5,phase:'enter',timer:0,target:300,r:45,dead:false};
+ run.hostile=[];announce('BOSS INBOUND',['SENTINEL · Find the gaps.','HIVE MIND · Stay on the move.','REAPER · Watch the dive warning.'][type],2.5);sound('warning');
+}
+function shootHostile(x,y,vx,vy,r=5,damage=12){if(run.hostile.length<260){run.hostile.push({x,y,px:x,py:y,vx,vy,r,damage,dead:false});sound('enemyShot');}}
+function updateBoss(dt){
+ const b=run.boss;if(!b||b.dead)return;b.t+=dt;b.timer+=dt;b.shot-=dt;
+ if(b.phase==='enter'||b.phase==='idle')b.sineT+=dt;
+
+ if(b.phase==='enter'){b.y+=100*dt;if(b.y>=155){b.y=155;b.phase='idle';b.timer=0;b.sineT=0;}return;}
+ 
+ if(b.type===2){
+  if(b.phase==='idle'&&b.timer>=5){b.phase='warn';b.target=clamp(run.player.x,65,535);b.timer=0;announce('DIVE WARNING','Move out of the marked lane.',1.1);sound('warning');}
+  if(b.phase==='warn'){b.x+=(b.target-b.x)*Math.min(1,dt*8);if(b.timer>=1.25){b.phase='down';b.timer=0;}return;}
+  if(b.phase==='down'){b.y+=520*dt;if(b.y>=730){b.phase='up';b.timer=0;}return;}
+  if(b.phase==='up'){b.y-=250*dt;if(b.y<=155){b.y=155;b.phase='idle';b.timer=0;b.shot=.8;b.sineT=Math.asin(clamp((b.x-300)/205,-1,1))/0.65||0;}return;}
+ }
+ 
+ if(b.type!==2||b.phase==='idle')b.x=300+Math.sin(b.sineT*.65)*205;
+ 
+ if(b.shot<=0){
+  if(b.type===1){for(let i=0;i<12;i++){const a=i*Math.PI/6+b.t*.35;shootHostile(b.x,b.y,Math.cos(a)*180,Math.sin(a)*180,5,15);}b.shot=0.55;}
+  else {const a=Math.atan2(run.player.y-b.y,run.player.x-b.x);for(let i=-2;i<=2;i++)shootHostile(b.x,b.y+28,Math.cos(a+i*.2)*220,Math.sin(a+i*.2)*220,5,15);b.shot=b.type===2?.45:.65;}
+ }
+}
+function burst(x,y,color,count=12){
+ count=data.settings.reduced?Math.min(6,count):count;
+ for(let i=0;i<count&&particles.length<180;i++){const a=Math.random()*Math.PI*2,v=30+Math.random()*180;particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:.25+Math.random()*.35,max:.6,color});}
+}
+function floatText(x,y,text,color='#d5faff'){if(labels.length<20)labels.push({x,y,text,color,life:1});}
+function ring(x,y,color,max=150){if(rings.length<8)rings.push({x,y,color,r:10,max,life:.5});}
+function hitPlayer(damage){
+ if(state!=='playing'||!run)return;
+ const p=run.player;if(p.inv>0||p.dash>0)return;
+ if(p.shield>0){p.shield=0;p.inv=.8;ring(p.x,p.y,'#8cf2be',60);sound('shield');return;}
+ p.hp=Math.max(0,p.hp-damage);p.inv=1;run.combo=1;run.comboTime=0;shake=data.settings.reduced?0:.2;flash=data.settings.reduced?0:.12;burst(p.x,p.y,'#ff627c',15);sound('damage');dirty=true;
+ if(p.hp<=0)finish();
+}
+function killEnemy(e){
+ if(!run||e.dead)return;e.dead=true;run.kills++;run.cleared++;
+ const gained=e.value*run.combo;run.score+=gained;earn(e.type===2?8:4,e.type===2?9:5);
+ run.combo=Math.min(8,run.combo+1);run.comboTime=3.2;run.bestCombo=Math.max(run.bestCombo,run.combo);data.stats.chain=Math.max(data.stats.chain,run.combo);
+ burst(e.x,e.y,e.type===2?'#ffad5b':'#ff627c',16);floatText(e.x,e.y,'+'+gained,run.combo===8?'#ffad5b':'#d5faff');sound('kill');
+ milestone('kills');
+ if(run.kills%8===0||random()<.04){
+  const types=['shield','spread','rapid','repair','repair','repair','emp'];
+  let pt=types[Math.floor(random()*types.length)];if(pt==='emp'&&random()>0.25)pt='repair'; // NERFED EMP
+  if(run.powers.length<20)run.powers.push({x:e.x,y:e.y,px:e.x,py:e.y,vx:0,vy:65,r:13,type:pt,dead:false});
+ }
+ data.best=Math.max(data.best,run.score);dirty=true;
+}
+function damageBoss(damage){
+ const b=run?.boss;if(!b||b.dead||b.phase==='enter')return;b.hp-=damage;
+ if(b.hp>0){sound('hit');return;}
+ b.dead=true;run.score+=500*run.combo;earn(65+Math.floor(run.wave/4)*10,70);run.bossDone=true;run.bombs=Math.min(3,run.bombs+1);
+ burst(b.x,b.y,'#ffad5b',65);ring(b.x,b.y,'#ffad5b',230);floatText(b.x,b.y,'BOSS DOWN · +'+(65+Math.floor(run.wave/4)*10)+' C','#ffad5b');run.hostile=[];sound('boss');sound('reward');milestone('bosses');data.best=Math.max(data.best,run.score);dirty=true;
+}
+function dash(){
+ if(state!=='playing'||!run)return;if(run.player.cooldown>0){sound('empty');return;}const p=run.player;
+ let dx=Number(keys.has('arrowright')||keys.has('d'))-Number(keys.has('arrowleft')||keys.has('a')),dy=Number(keys.has('arrowdown')||keys.has('s'))-Number(keys.has('arrowup')||keys.has('w'));
+ if(!dx&&!dy&&pointer.active){dx=pointer.x-p.x;dy=pointer.y-p.y;}
+ if(!dx&&!dy)dy=-1;const len=Math.hypot(dx,dy);p.dx=dx/len;p.dy=dy/len;p.dash=.18;p.cooldown=2.4;p.inv=Math.max(p.inv,.23);ring(p.x,p.y,'#59e8f5',65);sound('dash');dirty=true;updateHUD();
+}
+function emp(){
+ if(state!=='playing'||!run)return;if(run.bombs<=0){sound('empty');return;}run.bombs--;run.hostile=[];
+ for(const e of run.enemies)if(!e.dead)killEnemy(e);
+ if(run.boss&&run.boss.phase!=='enter')damageBoss(85*run.player.damage/10);ring(run.player.x,run.player.y,'#ffad5b',850);shake=data.settings.reduced?0:.18;sound('emp');dirty=true;save();updateHUD();
+}
+function completeWave(){
+ const wave=run.wave;earn(12+Math.min(100,wave*3),20);milestone('waves');
+ run.player.hp=Math.min(run.player.max,run.player.hp+8);run.player.inv=1.3;run.hostile=[];
+ run.wave++;run.spawned=0;run.cleared=0;run.spawn=.3;run.breakTime=2.4;run.boss=null;run.bossDone=false;
+ data.stats.wave=Math.max(data.stats.wave,run.wave);checkAchievements();
+ announce('SECTOR CLEAR · +'+(12+Math.min(100,wave*3))+' C','Next: '+(isBossWave()?'boss encounter':'wave '+String(run.wave).padStart(2,'0'))+' · +8 HP');sound('wave');save();
+}
+function segmentHit(ax,ay,bx,by,cx,cy,r){const dx=bx-ax,dy=by-ay,d=dx*dx+dy*dy,t=d?clamp(((cx-ax)*dx+(cy-ay)*dy)/d,0,1):0;return (ax+t*dx-cx)**2+(ay+t*dy-cy)**2<=r*r;}
+function collisions(){
+ const p=run.player;
+ for(const s of run.shots){if(s.dead)continue;
+  for(const e of run.enemies){if(e.dead)continue;if(segmentHit(s.px-e.px,s.py-e.py,s.x-e.x,s.y-e.y,0,0,e.r+s.r)){s.dead=true;e.hp-=s.damage;burst(s.x,s.y,'#59e8f5',3);if(e.hp<=0)killEnemy(e);else sound('hit');break;}}
+  const b=run.boss;if(!s.dead&&b&&!b.dead&&b.phase!=='enter'&&segmentHit(s.px,s.py,s.x,s.y,b.x,b.y,b.r+s.r)){s.dead=true;damageBoss(s.damage);burst(s.x,s.y,'#ffad5b',3);}
+ }
+ for(const s of run.hostile){if(s.dead)continue;if(segmentHit(s.px-p.px,s.py-p.py,s.x-p.x,s.y-p.y,0,0,8+s.r)){s.dead=true;hitPlayer(s.damage||12);if(!run)return;}}
+ for(const e of run.enemies){if(e.dead)continue;if(segmentHit(e.px-p.px,e.py-p.py,e.x-p.x,e.y-p.y,0,0,9+e.r*.7)){e.dead=true;run.cleared++;burst(e.x,e.y,'#ff627c');hitPlayer(20);if(!run)return;}}
+ const b=run.boss;if(b&&!b.dead&&Math.hypot(p.x-b.x,p.y-b.y)<b.r+9){hitPlayer(28);if(!run)return;}
+ for(const power of run.powers){if(power.dead)continue;const dist=Math.hypot(power.x-p.x,power.y-p.y);
+  if(dist<65){power.x+=(p.x-power.x)*STEP*8;power.y+=(p.y-power.y)*STEP*8;}
+  if(dist<27){power.dead=true;const names={repair:'REPAIR +22 HP',emp:'EMP +1',shield:'SHIELD READY',spread:'TRIPLE SHOT · 10s',rapid:'RAPID FIRE · 10s'};
+   if(power.type==='repair')p.hp=Math.min(p.max,p.hp+22);else if(power.type==='emp'){if(run.bombs<3)run.bombs++;else earn(8,3);}else p[power.type]=10;
+   floatText(p.x,p.y-30,names[power.type],'#8cf2be');sound('reward');dirty=true;save();
+  }
+ }
+}
+function tick(dt){
+ if(state!=='playing'||!run)return;run.time+=dt;const p=run.player;p.px=p.x;p.py=p.y;
+ p.inv=Math.max(0,p.inv-dt);p.cooldown=Math.max(0,p.cooldown-dt);for(const b of ['shield','spread','rapid'])p[b]=Math.max(0,p[b]-dt);
+ let dx=Number(keys.has('arrowright')||keys.has('d'))-Number(keys.has('arrowleft')||keys.has('a')),dy=Number(keys.has('arrowdown')||keys.has('s'))-Number(keys.has('arrowup')||keys.has('w'));
+ if(p.dash>0){p.dash=Math.max(0,p.dash-dt);p.x+=p.dx*900*dt;p.y+=p.dy*900*dt;}
+ else if(dx||dy){const len=Math.hypot(dx,dy);p.x+=dx/len*330*dt;p.y+=dy/len*330*dt;}
+ else if(pointer.active){const x=pointer.x-p.x,y=pointer.y-p.y,len=Math.hypot(x,y),speed=Math.min(1,480*dt/(len||1));p.x+=x*speed;p.y+=y*speed;}
+ p.x=clamp(p.x,18,582);p.y=clamp(p.y,110,775);
+ p.regenTime+=dt;if(p.regenTime>=5){p.regenTime-=5;p.hp=Math.min(p.max,p.hp+p.regen);dirty=true;}
+ p.shot-=dt;if(p.shot<=0){p.shot=p.fire*(p.rapid>0?.62:1);const spread=p.spread>0?[-.2,0,.2]:[0];for(const a of spread)if(run.shots.length<180)run.shots.push({x:p.x,y:p.y-19,px:p.x,py:p.y-19,vx:Math.sin(a)*700,vy:-Math.cos(a)*700,r:3,damage:p.damage,dead:false});sound('shot');}
+ if(run.comboTime>0){run.comboTime=Math.max(0,run.comboTime-dt);if(run.comboTime===0)run.combo=1;}
+ if(run.breakTime>0){run.breakTime=Math.max(0,run.breakTime-dt);if(run.breakTime===0)announce('WAVE '+String(run.wave).padStart(2,'0'),isBossWave()?'Boss sector':'Keep the chain alive.',1.3);}
+ else if(isBossWave()){if(!run.boss&&!run.bossDone)spawnBoss();updateBoss(dt);}
+ else {run.spawn-=dt;if(run.spawn<=0&&run.spawned<waveSize()){spawnEnemy();run.spawn=Math.max(.32,.8-run.wave*.018);}}
+ for(const e of run.enemies){if(e.dead)continue;e.px=e.x;e.py=e.y;e.t+=dt;e.y+=e.vy*dt;
+  if(e.type===1)e.x=clamp(e.baseX+Math.sin(e.t*3)*55,22,578);
+  if(e.type===3){e.x=clamp(e.baseX+Math.sin(e.t*4)*120, 18, 582); e.vy=250+run.wave*10;} // KAMIKAZE CURVE
+  e.shot-=dt;if(e.shot<=0&&e.y>20&&e.y<620){
+   if(e.type===2){shootHostile(e.x,e.y+15,0,260,6,25);e.shot=2.2;} // STRAIGHT TANK SHOT
+   else if(e.type!==3){const a=Math.atan2(p.y-e.y,p.x-e.x);shootHostile(e.x,e.y+15,Math.cos(a)*130,Math.sin(a)*130,4,12);e.shot=2.8;} // BASIC SHOT
+  }
+  if(e.y>845){e.dead=true;run.cleared++;run.combo=1;run.comboTime=0;}
+ }
+ for(const list of [run.shots,run.hostile,run.powers])for(const s of list){s.px=s.x;s.py=s.y;s.x+=s.vx*dt;s.y+=s.vy*dt;if(s.y< -140||s.y>900||s.x< -140||s.x>740)s.dead=true;}
+ collisions();if(!run||state!=='playing')return;
+ run.enemies=run.enemies.filter(e=>!e.dead);run.shots=run.shots.filter(e=>!e.dead);run.hostile=run.hostile.filter(e=>!e.dead);run.powers=run.powers.filter(e=>!e.dead);
+ if(run.breakTime===0&&((isBossWave()&&run.bossDone)||(!isBossWave()&&run.spawned>=waveSize()&&run.enemies.length===0)))completeWave();
+ saveTimer+=dt;if(saveTimer>=1){saveTimer=0;save();dirty=false;}
+ hudTimer+=dt;if(hudTimer>=.1){hudTimer=0;updateHUD();}
+}
+function updateHUD(){
+ if(!run)return;const p=run.player;
+ $('score').textContent=fmt(run.score);$('wave').textContent='WAVE '+String(run.wave).padStart(2,'0');$('waveProgress').textContent=isBossWave()?'BOSS':run.cleared+' / '+waveSize();$('waveType').textContent=isBossWave()?'BREAK THEIR DEFENSES':'CLEAR THE SECTOR';
+ $('combo').firstChild.textContent='CHAIN ×'+run.combo;$('comboFill').style.width=100*run.comboTime/3.2+'%';$('hp').textContent=Math.ceil(p.hp)+' / '+p.max+' HP';$('hpFill').style.width=100*p.hp/p.max+'%';$('hpFill').style.background=p.hp/p.max<.3?'#ff627c':'#59e8f5';
+ $('dashText').textContent=p.cooldown>0?p.cooldown.toFixed(1)+'s':'SPACE · READY';$('dashBtn').disabled=p.cooldown>0;$('empText').textContent='B · '+run.bombs+' CHARGE'+(run.bombs===1?'':'S');$('empBtn').disabled=run.bombs<=0;
+ $('bossHud').hidden=!run.boss||run.boss.dead;if(run.boss){$('bossName').textContent=['SENTINEL','HIVE MIND','REAPER'][run.boss.type];$('bossFill').style.width=clamp(run.boss.hp/run.boss.max*100,0,100)+'%';}
+ $('flightControls').hidden=!data.settings.controls;
+}
+function resize(){
+ const oldWidth=width,oldHeight=height;width=$('app').clientWidth;height=$('app').clientHeight;dpr=Math.min(devicePixelRatio||1,2);
+ for(const c of [canvas,sky]){c.width=Math.round(width*dpr);c.height=Math.round(height*dpr);}
+ scale=Math.min(width/W,height/H);ox=(width-W*scale)/2;oy=(height-H*scale)/2;
+ if(!stars.length){for(let i=0;i<85;i++)stars.push({x:Math.random()*width,y:Math.random()*height,z:.25+Math.random()*.75});}else for(const s of stars){s.x*=width/oldWidth;s.y*=height/oldHeight;}
+ positionControls();updateStorage();
+}
+function positionControls(){
+ const controls=$('flightControls'),size=data.settings.size;
+ const bottomReserve=storageOK?45:Math.max(45,$('storageWarning').offsetHeight+16);
+ for(const [key,id] of [['dash','dashBtn'],['emp','empBtn']]){
+  const btn=$(id),bw=(width<=650?70:80)*size,bh=(width<=650?60:64)*size;btn.style.width=bw+'px';btn.style.height=bh+'px';btn.style.right='auto';btn.style.bottom='auto';
+  let pos=data.settings.layout?.[key];if(!pos){const left=key==='dash'?!data.settings.left:data.settings.left;pos={x:left?.05:.95-bw/width,y:1-(bh+bottomReserve)/height};}
+  btn.style.left=clamp(pos.x*width,8,Math.max(8,width-bw-8))+'px';btn.style.top=clamp(pos.y*height,100,Math.max(100,height-bh-(storageOK?25:bottomReserve)))+'px';
+ }
+ controls.hidden=!editMode&&(state!=='playing'||!data.settings.controls);
+}
+function worldPoint(e){return {x:clamp((e.clientX-ox)/scale,18,582),y:clamp((e.clientY-oy)/scale,110,775)};}
+canvas.addEventListener('pointerdown',e=>{if(state!=='playing'||pointer.id!==null)return;e.preventDefault();unlockAudio();pointer.id=e.pointerId;pointer.active=true;const q=worldPoint(e);pointer.x=q.x;pointer.y=clamp(q.y-(e.pointerType==='touch'?65:0),110,775);canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove',e=>{if(e.pointerId!==pointer.id||!pointer.active)return;const q=worldPoint(e);pointer.x=q.x;pointer.y=clamp(q.y-(e.pointerType==='touch'?65:0),110,775);});
+function releasePointer(e){if(e.pointerId===pointer.id){pointer.active=false;pointer.id=null;}}
+for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,releasePointer);
+canvas.addEventListener('contextmenu',e=>e.preventDefault());
+const gameKeys=['arrowleft','arrowright','arrowup','arrowdown','w','a','s','d',' ','b','p','escape'];
+window.addEventListener('keydown',e=>{
+ if(e.target.matches('input,textarea'))return;const key=e.key.toLowerCase();
+ if(e.target.matches('button')&&(key===' '||key==='enter'))return;
+ if(state==='playing'&&gameKeys.includes(key)){e.preventDefault();keys.add(key);if(!e.repeat){if(key===' ')dash();if(key==='b')emp();if(key==='p'||key==='escape')pause();}}
+ else if(state==='paused'&&(key==='p'||key==='escape')&&!e.repeat){e.preventDefault();resumeFlight();}
+});
+window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
+window.addEventListener('blur',()=>{clearInput();if(state==='playing')pause();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput();if(state==='playing')pause();else save();}});
+window.addEventListener('pagehide',()=>{clearInput();if(!conflicted)save();});
+window.addEventListener('beforeunload',()=>{if(!conflicted)save();}); // EXTRA POJISTKA PRO AUTO-SAVE
+window.addEventListener('resize',()=>{if(state==='playing')pause();resize();});
+function takeConflict(){conflicted=true;clearInput();if(state==='playing')state='paused';$('conflict').hidden=false;$('reloadBtn').focus();}
+window.addEventListener('storage',e=>{
+ if(e.key!==KEY||!e.newValue||e.newValue===lastWritten)return;
+ try{if(JSON.parse(e.newValue).revision<=data.revision)return;}catch{return;}
+ takeConflict();
+});
+function polygon(points,fill,stroke,line=1.5){ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=line;ctx.stroke();}}
+function drawShip(x,y,size=19){
+ ctx.save();ctx.translate(x,y);const p=run?.player;
+ if(p&&p.inv>0&&Math.floor(run.time*14)%2===0)ctx.globalAlpha=.45;
+ const s=size/19;ctx.scale(s,s);
+ const flame=state==='playing'?12+Math.sin((run?.time||0)*45)*5:16;
+ polygon([[-5,16],[5,16],[0,16+flame]],'#8af5ff');
+ polygon([[0,-25],[9,-3],[21,18],[9,14],[4,20],[0,15],[-4,20],[-9,14],[-21,18],[-9,-3]],'#0d2937','#70effa',1.6);
+ polygon([[0,-14],[4,2],[0,7],[-4,2]],'#85f3ff');ctx.strokeStyle='#337b90';ctx.beginPath();ctx.moveTo(0,-25);ctx.lineTo(0,15);ctx.stroke();
+ if(p?.shield>0){ctx.strokeStyle='#8cf2be';ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(0,0,31,0,Math.PI*2);ctx.stroke();}
+ if(p?.dash>0){ctx.strokeStyle='#d9ffff';ctx.beginPath();ctx.moveTo(-16,20);ctx.lineTo(-16,65);ctx.moveTo(16,20);ctx.lineTo(16,65);ctx.stroke();}
+ ctx.restore();
+}
+function drawEnemy(e){
+ ctx.save();ctx.translate(e.x,e.y);const c=e.type===2?'#ffad5b':e.type===1?'#e899d7':'#ff627c';
+ if(e.type===2)polygon([[-23,-15],[-15,15],[0,23],[15,15],[23,-15],[0,-6]],'#291c29',c,1.8);
+ else if(e.type===3)polygon([[0,22],[12,-14],[0,-5],[-12,-14]],'#271728',c);
+ else polygon([[0,20],[18,-12],[6,-5],[0,-17],[-6,-5],[-18,-12]],'#261629',c);
+ ctx.fillStyle=c;ctx.fillRect(-3,-2,6,6);
+ if(e.hp<e.max){ctx.fillStyle='#57313b';ctx.fillRect(-18,-26,36,2);ctx.fillStyle=c;ctx.fillRect(-18,-26,36*clamp(e.hp/e.max,0,1),2);}ctx.restore();
+}
+function drawBoss(b){
+ if(b.dead)return;
+ if(b.phase==='warn'||b.phase==='down'){ctx.fillStyle=b.phase==='warn'?'#ff627c22':'#ff627c10';ctx.fillRect(b.target-55,b.y,110,H-b.y);ctx.strokeStyle='#ff627c';ctx.setLineDash([8,8]);ctx.beginPath();ctx.moveTo(b.target-55,b.y);ctx.lineTo(b.target-55,H);ctx.moveTo(b.target+55,b.y);ctx.lineTo(b.target+55,H);ctx.stroke();ctx.setLineDash([]);}
+ ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.sin(b.t)*.05);
+ const c=b.type===1?'#e899d7':b.type===2?'#ffad5b':'#ff627c';
+ if(b.type===1){ctx.rotate(b.t*.3);const pts=[];for(let i=0;i<16;i++){const a=i*Math.PI/8,r=i%2?27:51;pts.push([Math.cos(a)*r,Math.sin(a)*r]);}polygon(pts,'#211a2c',c,2);}
+ else polygon([[-55,-25],[-42,25],[-22,14],[0,47],[22,14],[42,25],[55,-25],[25,-13],[0,-40],[-25,-13]],'#291b2b',c,2);
+ polygon([[0,-15],[13,0],[0,17],[-13,0]],c);ctx.fillStyle='#fff0df';ctx.fillRect(-3,-3,6,6);ctx.restore();
+}
+function drawBackground(dt){
+ skyctx.setTransform(dpr,0,0,dpr,0,0);skyctx.clearRect(0,0,width,height);
+ for(const s of stars){if(state!=='paused'&&!editMode){s.y+=dt*(state==='playing'?20:7)*s.z;if(s.y>height)s.y=0;}skyctx.fillStyle='rgba(155,213,235,'+(s.z*.55)+')';skyctx.fillRect(s.x,s.y,s.z> .8?1.5:1,s.z> .8?1.5:1);}
+}
+function render(dt){
+ if($('play').hidden)return;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#050c14';ctx.fillRect(0,0,width,height);
+ ctx.save();ctx.translate(ox,oy);ctx.scale(scale,scale);
+ const grad=ctx.createLinearGradient(0,0,0,H);grad.addColorStop(0,'#0a1926');grad.addColorStop(1,'#06111c');ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+ ctx.strokeStyle='#16303c';ctx.lineWidth=.7;ctx.strokeRect(.5,.5,W-1,H-1);
+ for(const s of stars){ctx.fillStyle='rgba(163,217,240,'+(s.z*.5)+')';ctx.fillRect(s.x/width*W,s.y/height*H,1+s.z,1+s.z*2);}
+ if(shake>0&&!data.settings.reduced)ctx.translate((Math.random()-.5)*7,(Math.random()-.5)*7);
+ if(run){
+  for(const power of run.powers){const c=power.type==='emp'?'#ffad5b':'#8cf2be';ctx.save();ctx.translate(power.x,power.y);polygon([[0,-15],[14,-7],[14,7],[0,15],[-14,7],[-14,-7]],'#0a2530',c);ctx.fillStyle=c;ctx.font='bold 12px Consolas,monospace';ctx.textAlign='center';ctx.fillText({shield:'S',spread:'W',rapid:'R',repair:'+',emp:'E'}[power.type],0,4);ctx.restore();}
+  ctx.fillStyle='#8af5ff';for(const s of run.shots)ctx.fillRect(s.x-1.5,s.y-7,3,14);
+  for(const e of run.enemies)if(!e.dead)drawEnemy(e);
+  if(run.boss)drawBoss(run.boss);
+  for(const s of run.hostile){ctx.fillStyle='#ff627c';ctx.beginPath();ctx.arc(s.x,s.y,s.r+1.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffe0d4';ctx.beginPath();ctx.arc(s.x,s.y,s.r*.45,0,Math.PI*2);ctx.fill();}
+  drawShip(run.player.x,run.player.y);
+  const buffs=['shield','spread','rapid'].filter(k=>run.player[k]>0);ctx.font='10px Consolas,monospace';ctx.textAlign='center';ctx.fillStyle='#8cf2be';buffs.forEach((k,i)=>ctx.fillText(k.toUpperCase()+' '+Math.ceil(run.player[k])+'s',W/2,H-18-i*15));
+ }
+ for(const p of particles){ctx.globalAlpha=clamp(p.life/.4,0,1);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,2,2);}ctx.globalAlpha=1;
+ for(const r of rings){ctx.globalAlpha=r.life*1.5;ctx.strokeStyle=r.color;ctx.lineWidth=2;ctx.beginPath();ctx.arc(r.x,r.y,r.r,0,Math.PI*2);ctx.stroke();}ctx.globalAlpha=1;
+ ctx.textAlign='center';ctx.font='bold 12px Consolas,monospace';for(const l of labels){ctx.globalAlpha=Math.min(1,l.life*2);ctx.fillStyle=l.color;ctx.fillText(l.text,clamp(l.x,100,500),l.y);}ctx.globalAlpha=1;
+ if(flash>0){ctx.fillStyle='rgba(255,80,110,'+(flash*.8)+')';ctx.fillRect(0,0,W,H);}ctx.restore();
+}
+function updateEffects(dt){
+ if(state==='paused'||editMode)return;
+ for(const p of particles){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=Math.exp(-dt*5);p.vy*=Math.exp(-dt*5);}particles=particles.filter(p=>p.life>0);
+ for(const l of labels){l.life-=dt;l.y-=25*dt;}labels=labels.filter(l=>l.life>0);
+ for(const r of rings){r.life-=dt;r.r+=r.max*dt*2;}rings=rings.filter(r=>r.life>0);
+ shake=Math.max(0,shake-dt);flash=Math.max(0,flash-dt);waveMessageTime=Math.max(0,waveMessageTime-dt);$('waveToast').style.opacity=waveMessageTime>0?'1':'0';
+}
+function frame(timestamp){
+ const elapsed=lastFrame?Math.max(0,(timestamp-lastFrame)/1000):0;lastFrame=timestamp;
+ if(elapsed>.75&&state==='playing')pause();
+ const dt=Math.min(.12,elapsed),gameDt=state==='playing'?dt*GAME_SPEED:dt;drawBackground(gameDt);
+ if(state==='playing'){accumulator+=gameDt;let count=0;while(accumulator+1e-10>=STEP&&count<12&&state==='playing'){tick(STEP);accumulator-=STEP;count++;}}
+ else accumulator=0;
+ updateEffects(gameDt);render(dt);
+ if(toastTime>0){toastTime-=dt;if(toastTime<=0)$('toast').hidden=true;}
+ requestAnimationFrame(frame);
+}
+let pendingAction=null,confirmReturn=null;
+function confirmAction(title,text,label,action){confirmReturn=document.activeElement;pendingAction=action;$('confirmTitle').textContent=title;$('confirmText').textContent=text;$('confirmBtn').textContent=label;$('confirmOverlay').hidden=false;$('cancelBtn').focus();}
+$('confirmBtn').onclick=()=>{const action=pendingAction;pendingAction=null;$('confirmOverlay').hidden=true;action?.();};
+$('cancelBtn').onclick=()=>{pendingAction=null;$('confirmOverlay').hidden=true;confirmReturn?.focus();};
+$('startBtn').onclick=()=>{unlockAudio();if(run)confirmAction('Replace saved flight?','Starting over replaces your current flight. All earned credits and upgrades stay yours.','Start new flight',newRun);else newRun();};
+$('resumeBtn').onclick=resumeFlight;$('restartBtn').onclick=newRun;$('hangarBtn').onclick=()=>showPage('hangar');$('resultShopBtn').onclick=()=>showPage('hangar');$('resultHomeBtn').onclick=()=>showPage('home');
+$('settingsBtn').onclick=()=>showPage('settings');document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>showPage('home'));
+$('pauseBtn').onclick=pause;$('continueBtn').onclick=resumeFlight;$('saveExitBtn').onclick=()=>{save();showPage('home');$('resumeBtn').focus();};
+function toggleSound(){data.settings.sound=!data.settings.sound;unlockAudio();save();renderSound();if(page==='settings')renderSettings();if(data.settings.sound)sound('reward');}
+$('soundBtn').onclick=toggleSound;
+for(const [id,key] of [['soundSetting','sound'],['effectsSetting','reduced'],['controlsSetting','controls'],['leftSetting','left']])$(id).onchange=()=>{data.settings[key]=$(id).checked;if(key==='sound')unlockAudio();if(key==='left')data.settings.layout=null;save();renderSound();positionControls();};
+$('sizeSetting').oninput=()=>{data.settings.size=Number($('sizeSetting').value);positionControls();};$('sizeSetting').onchange=save;
+$('defaultLayoutBtn').onclick=()=>{data.settings.layout=null;data.settings.size=1;data.settings.left=false;save();renderSettings();toast('Default control layout restored.');};
+$('editLayoutBtn').onclick=()=>{
+ editMode=true;state='editing';$('shell').hidden=true;document.querySelector('header').hidden=true;$('play').hidden=false;$('layoutBar').hidden=false;document.querySelector('.hud').hidden=true;$('bossHud').hidden=true;$('waveToast').style.opacity='0';$('flightHint').hidden=true;
+ for(const id of ['dashBtn','empBtn']){$(id).disabled=false;$(id).classList.add('editing');}positionControls();
+};
+$('saveLayoutBtn').onclick=()=>{editMode=false;$('layoutBar').hidden=true;document.querySelector('.hud').hidden=false;$('flightHint').hidden=false;for(const id of ['dashBtn','empBtn'])$(id).classList.remove('editing');save();showPage('settings');};
+for(const [key,id,action] of [['dash','dashBtn',dash],['emp','empBtn',emp]]){
+ const btn=$(id);let drag=null;
+ btn.addEventListener('pointerdown',e=>{e.preventDefault();if(!editMode){action();return;}const rect=btn.getBoundingClientRect();drag={id:e.pointerId,x:e.clientX-rect.left,y:e.clientY-rect.top};btn.setPointerCapture(e.pointerId);});
+ btn.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId||!editMode)return;const x=clamp(e.clientX-drag.x,8,width-btn.offsetWidth-8),y=clamp(e.clientY-drag.y,100,height-btn.offsetHeight-25);btn.style.left=x+'px';btn.style.top=y+'px';});
+ const end=e=>{if(!drag||drag.id!==e.pointerId)return;drag=null;const layout=data.settings.layout||{};for(const [k,other] of [['dash','dashBtn'],['emp','empBtn']]){const el=$(other);layout[k]={x:parseFloat(el.style.left)/width,y:parseFloat(el.style.top)/height};}data.settings.layout=layout;};
+ for(const ev of ['pointerup','pointercancel','lostpointercapture'])btn.addEventListener(ev,end);
+ btn.addEventListener('click',e=>{if(!editMode&&e.detail===0)action();});
+}
+function encodeSave(){data.run=snapshot();return JSON.stringify({game:'neon-starfighter',version:2,data});}
+$('exportBtn').onclick=()=>{const text=encodeSave();$('saveText').value=text;$('saveText').focus();$('saveText').select();$('backupStatus').textContent='Backup ready. Copy the code below and keep it somewhere safe.';if(window.self!==window.top)return;try{const blob=new Blob([text],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='neon-starfighter-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}catch{}};
+$('importBtn').onclick=()=>{
+ try{const text=$('saveText').value;if(text.length>500000)throw Error();const obj=JSON.parse(text);if(obj.game!=='neon-starfighter'||obj.version!==2||obj.data?.version!==2)throw Error();const next=normalize(obj.data);
+  confirmAction('Restore this backup?','This replaces the current profile and saved flight. Export your current progress first if you want to keep it.','Restore backup',()=>{data=next;run=data.run;save();renderProfile();renderSettings();$('backupStatus').textContent='Backup restored. Your saved flight is ready in the main menu.';toast('Backup restored. Welcome back, pilot.');});
+ }catch{$('backupStatus').textContent='Invalid backup code. Paste the complete code exported by this version of Neon Starfighter.';}
+};
+$('backupOpenBtn').onclick=()=>{if(state==='playing')pause();save();showPage('settings');$('exportBtn').focus();};$('reloadBtn').onclick=()=>location.reload();
+document.addEventListener('keydown',e=>{const overlay=[...document.querySelectorAll('.overlay')].reverse().find(el=>!el.hidden);if(!overlay)return;if(e.key==='Escape'&&overlay.id==='confirmOverlay'){$('cancelBtn').click();e.preventDefault();return;}if(e.key!=='Tab')return;const items=[...overlay.querySelectorAll('button:not(:disabled),textarea,input')],first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){last.focus();e.preventDefault();}else if(!e.shiftKey&&document.activeElement===last){first.focus();e.preventDefault();}});
+resize();renderProfile();renderSettings();updateStorage();showPage('home');if(storageNote&&storageOK)toast(storageNote);
+save();requestAnimationFrame(frame);
+</script>
+</body>
+</html>
