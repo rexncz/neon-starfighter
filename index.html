@@ -259,7 +259,7 @@ function updateBoss(dt){
   if(b.phase==='idle'&&b.timer>=5){b.phase='warn';b.target=clamp(run.player.x,65,535);b.timer=0;announce('DIVE WARNING','Move out of the marked lane.',1.1);sound('warning');}
   if(b.phase==='warn'){b.x+=(b.target-b.x)*Math.min(1,dt*8);if(b.timer>=1.25){b.phase='down';b.timer=0;}return;}
   if(b.phase==='down'){b.y+=520*dt;if(b.y>=730){b.phase='up';b.timer=0;}return;}
-  if(b.phase==='up'){b.y-=250*dt;if(b.y<=155){b.y=155;b.phase='idle';b.timer=0;b.shot=.8;b.sineT=Math.asin(clamp((b.x-300)/205,-1,1))/0.65||0;}return;}
+  if(b.phase==='up'){b.y-=250*dt;if(b.y<=155){b.y=155;b.phase='idle';b.timer=0;b.shot=.8;let a=Math.asin(clamp((b.x-300)/205,-1,1));if(random()<.5)a=Math.PI-a;b.sineT=a/0.65||0;}return;}
  }
  if(b.type!==2||b.phase==='idle')b.x=300+Math.sin(b.sineT*.65)*205;
  if(b.shot<=0){
