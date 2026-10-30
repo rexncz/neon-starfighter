@@ -350,7 +350,9 @@ function tick(dt){
   let spread = p.spread>0?[-.2,0,.2]:[0];
   if(t===1) spread = p.spread>0?[-.3,-.15,0,.15,.3]:[-.15,0,.15];
   if(t===2){
-   const targets=run.enemies.filter(e=>!e.dead&&e.y>0).sort((a,b)=>Math.hypot(p.x-a.x,p.y-a.y)-Math.hypot(p.x-b.x,p.y-b.y));
+   let targets=run.enemies.filter(e=>!e.dead&&e.y>0);
+   if(run.boss&&!run.boss.dead&&run.boss.phase!=='enter')targets.push(run.boss);
+   targets.sort((a,b)=>Math.hypot(p.x-a.x,p.y-a.y)-Math.hypot(p.x-b.x,p.y-b.y));
    const angles=p.spread>0?[-.25,0,.25]:[-.15,.15];
    angles.forEach((offset,i)=>{
     let vx=Math.sin(offset)*850,vy=-Math.cos(offset)*850,dmg=p.damage*0.8;
