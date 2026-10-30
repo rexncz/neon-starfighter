@@ -29,7 +29,9 @@
 <div class="brief"><h1><span>NEON</span><small>STARFIGHTER</small></h1><p class="tagline">One more wave. Make it count.</p><div class="actions"><button class="primary" id="startBtn">Launch flight <span aria-hidden="true">↗</span></button><button id="resumeBtn" hidden>Resume flight <span aria-hidden="true">→</span></button><button id="hangarBtn">Hangar <span aria-hidden="true">→</span></button></div><div id="missions" class="mission-list" aria-label="Pilot missions"></div></div>
 <div class="art-wrap"><svg class="ship-art" viewBox="0 0 500 480" aria-hidden="true"><defs><radialGradient id="halo"><stop stop-color="#2aaac1" stop-opacity=".13"/><stop offset="1" stop-color="#0a1827" stop-opacity="0"/></radialGradient><linearGradient id="hull" x2="1" y2="1"><stop stop-color="#102e40"/><stop offset="1" stop-color="#06131e"/></linearGradient><linearGradient id="exhaust" x2="0" y2="1"><stop stop-color="#a7ffff"/><stop offset="1" stop-color="#50deff" stop-opacity="0"/></linearGradient></defs><circle cx="250" cy="240" r="215" fill="url(#halo)"/><g stroke="#254958" fill="none"><circle cx="250" cy="240" r="178"/><circle cx="250" cy="240" r="150" stroke-dasharray="3 14"/><path d="M250 37v48M250 399v48M45 240h50m310 0h50"/><path d="M107 96l15 15m256 256 15 15M107 384l15-15M378 111l15-15"/></g><g fill="url(#exhaust)"><path d="M228 347h16l-8 100zM257 347h16l-8 100zM156 320h12l-6 53zM332 320h12l-6 53z"/></g><g stroke="#5ce8f5" stroke-width="1.8" fill="url(#hull)" stroke-linejoin="round"><path d="M250 66l25 152 34 57 12-68 14 13 4 63 52 55-2 29-84-28-27 29-28-17-28 17-27-29-84 28-2-29 52-55 4-63 14-13 12 68 34-57z"/><path d="M250 66v285m-25-133 25-35 25 35-5 94-20 31-20-31zM195 339l16-65m94 65-16-65M109 338l79-35m203 35-79-35M165 220l-4 100m174-100 4 100M228 347h16v-27m29 27h-16v-27"/><path d="M250 103l12 85-12-14-12 14z" fill="#17485c"/><path d="M241 223l9-15 9 15v49l-9 17-9-17z" fill="#20718a"/><path d="m118 344 64-27-5 16-58 20zM382 344l-64-27 5 16 58 20z" fill="#123e51"/></g><g fill="#8bf7ff"><circle cx="250" cy="194" r="2"/><circle cx="172" cy="289" r="2"/><circle cx="328" cy="289" r="2"/></g></svg><div class="art-label">NF–01 / INTERCEPTOR CLASS</div></div>
 </section>
-<section class="view page" id="hangar" hidden aria-label="Hangar"><div class="page-header"><div><h2>Build your edge.</h2><p class="muted mono" style="font-size:11px">Available credits <strong class="credit" id="shopCoins">0</strong></p></div><button data-home>Back</button></div><p>Permanent upgrades. Every flight gets you further.</p><div id="upgrades"></div><div class="note" id="upgradeNote">Upgrades apply to your next flight.</div><h3 style="font-size:15px;margin-top:28px">Pilot milestones</h3><div id="achievements"></div></section>
+<section class="view page" id="hangar" hidden aria-label="Hangar"><div class="page-header"><div><h2>Build your edge.</h2><p class="muted mono" style="font-size:11px">Available credits <strong class="credit" id="shopCoins">0</strong></p></div><button data-home>Back</button></div><p>Permanent upgrades. Every flight gets you further.</p><div id="upgrades"></div><div class="note" id="upgradeNote">Upgrades apply to your next flight.</div>
+<h3 style="font-size:15px;margin-top:28px">Active fleet</h3><div id="fleet"></div>
+<h3 style="font-size:15px;margin-top:28px">Pilot milestones</h3><div id="achievements"></div></section>
 <section class="view page" id="settings" hidden aria-label="Settings"><div class="page-header"><h2>Flight systems.</h2><button data-home>Back</button></div><label class="setting">Sound effects<input type="checkbox" id="soundSetting"></label><label class="setting">Reduced effects<small>Fewer particles, no screen shake.</small><input type="checkbox" id="effectsSetting"></label><label class="setting">On-screen action buttons<input type="checkbox" id="controlsSetting"></label><label class="setting">Left-handed controls<input type="checkbox" id="leftSetting"></label><label class="setting">Button size<input type="range" id="sizeSetting" min="0.8" max="1.4" step="0.1" aria-label="Button size"></label><div class="backup-actions"><button id="editLayoutBtn">Move action buttons</button><button id="defaultLayoutBtn">Default positions</button></div><h3 style="font-size:16px;margin:30px 0 10px">Your progress, backed up.</h3><p style="font-size:12px">Flights save automatically. Keep a backup to move between devices, browsers or website embeds. Your progress stays on this browser; it is not synced to an account.</p><div class="backup-actions"><button id="exportBtn">Export save</button><button id="importBtn">Import save</button></div><label for="saveText" class="mono muted" style="font-size:10px">BACKUP CODE</label><textarea id="saveText" spellcheck="false" placeholder="Export a backup, or paste a previously exported save code here."></textarea><p id="backupStatus" class="inline-status" role="status"></p><div class="note">Move: WASD / arrow keys, or drag anywhere in the flight area. Auto-fire is always on. Dash: Space. EMP: B. Pause: P / Esc. Drag from below your ship on touchscreens to keep it visible.</div></section>
 <div class="help-strip" id="menuHelp"><span class="desktop-help"><kbd>W A S D</kbd> / ARROWS <b>MOVE</b></span><span class="desktop-help"><kbd>SPACE</kbd> <b>DASH</b> &nbsp; <kbd>B</kbd> <b>EMP</b></span><span>DRAG TO MOVE · AUTO-FIRE ON</span></div>
 <footer class="profile"><div><label>PILOT RANK</label><strong id="rank">LVL 1</strong><div class="track" aria-hidden="true"><i id="xpFill"></i></div></div><div><label>PERSONAL BEST</label><strong id="best">0</strong></div><div><label>CREDITS</label><strong class="credit" id="coins">0</strong></div></footer>
@@ -50,16 +52,16 @@ const fmt = n => Math.floor(n).toLocaleString('en-US');
 const KEY='neonStarfighter.v2', BACKUP=KEY+'.backup', LEGACY='neonStarfighterData';
 
 const UPGRADE={hp:{name:'Armor plating',icon:'◇',cap:9999,base:100,desc:'+12 max HP per level'},dmg:{name:'Blaster core',icon:'↟',cap:9999,base:120,desc:'+10% weapon damage per level'},fire:{name:'Overclock',icon:'»',cap:20,base:140,desc:'+5% firing speed per level'},regen:{name:'Nano bots',icon:'✧',cap:9999,base:160,desc:'+1 HP recovered every 5 seconds per level'}};
-
+const SHIPS=[{id:0,name:'NF-01 INTERCEPTOR',desc:'Standard issue starfighter.',cost:0,score:0},{id:1,name:'INTERCEPTOR MK.II',desc:'Built-in triple shot.',cost:100000,score:100000},{id:2,name:'PHANTOM VANGUARD',desc:'Dual auto-target lasers.',cost:500000,score:500000}];
 const MISSIONS=[{key:'kills',goal:30,reward:100,label:'Destroy 30 enemies'},{key:'waves',goal:5,reward:150,label:'Clear 5 waves'},{key:'bosses',goal:3,reward:220,label:'Defeat 3 bosses'}];
 const ACHIEVEMENTS=[{id:'first',name:'First contact',desc:'Destroy your first enemy',stat:'kills',goal:1},{id:'chain',name:'In the zone',desc:'Reach a ×8 chain',stat:'chain',goal:8},{id:'boss',name:'Giant slayer',desc:'Defeat a boss',stat:'bosses',goal:1},{id:'wave',name:'Deep space',desc:'Reach wave 10',stat:'wave',goal:10}];
-function defaults(){return {version:2,revision:0,coins:0,best:0,xp:0,upgrades:{hp:0,dmg:0,fire:0,regen:0},settings:{sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,controls:true,left:false,size:1,layout:null},stats:{kills:0,waves:0,bosses:0,chain:1,wave:1},missions:{kills:0,waves:0,bosses:0},achievements:[],run:null};}
+function defaults(){return {version:2,revision:0,coins:0,best:0,xp:0,ship:0,unlockedShips:[0],upgrades:{hp:0,dmg:0,fire:0,regen:0},settings:{sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,controls:true,left:false,size:1,layout:null},stats:{kills:0,waves:0,bosses:0,chain:1,wave:1},missions:{kills:0,waves:0,bosses:0},achievements:[],run:null};}
 function normalize(raw){
  if(!raw || typeof raw!=='object' || Array.isArray(raw))throw Error('Invalid save');
  const d=defaults();d.revision=integer(raw.revision,0,1e15);d.coins=integer(raw.coins,0,1e9);d.best=integer(raw.best,0,1e12);d.xp=integer(raw.xp,0,1e12);
+ d.ship=integer(raw.ship,0,2);d.unlockedShips=Array.isArray(raw.unlockedShips)?raw.unlockedShips.map(x=>integer(x,0,2)):[0];
  for(const k of Object.keys(UPGRADE))d.upgrades[k]=integer(raw.upgrades?.[k],0,UPGRADE[k].cap);
  for(const k of ['sound','reduced','controls','left'])if(typeof raw.settings?.[k]==='boolean')d.settings[k]=raw.settings[k];
- if(typeof raw.settings?.showControls==='boolean' && raw.version!==2)d.settings.controls=raw.settings.showControls;
  d.settings.size=finite(raw.settings?.size??raw.settings?.btnScale,.8,1.4,1);
  const layout=raw.settings?.layout;
  if(layout && ['dash','emp'].every(k=>layout[k]&&Number.isFinite(layout[k].x)&&Number.isFinite(layout[k].y)))d.settings.layout={dash:{x:clamp(layout.dash.x,0,1),y:clamp(layout.dash.y,0,1)},emp:{x:clamp(layout.emp.x,0,1),y:clamp(layout.emp.y,0,1)}};
@@ -81,7 +83,7 @@ function entityList(list,limit,kind){
 function validateRun(r){
  if(!r||r.version!==2||!r.player||!Number.isFinite(r.player.hp)||r.player.hp<=0)return null;
  const p=r.player;
- const out={version:2,seed:integer(r.seed,0,4294967295,123456),time:finite(r.time,0,1e8),score:integer(r.score,0,1e12),earned:integer(r.earned,0,1e9),kills:integer(r.kills,0,1e9),wave:integer(r.wave,1,10000,1),spawned:integer(r.spawned,0,64),cleared:integer(r.cleared,0,64),spawn:finite(r.spawn,-10,10),breakTime:finite(r.breakTime,0,3),combo:integer(r.combo,1,8,1),comboTime:finite(r.comboTime,0,4),bestCombo:integer(r.bestCombo,1,8,1),bombs:integer(r.bombs,0,3,1),bossDone:!!r.bossDone,player:{x:finite(p.x,16,584,300),y:finite(p.y,100,775,680),px:finite(p.x,16,584,300),py:finite(p.y,100,775,680),hp:finite(p.hp,.01,1000,100),max:finite(p.max,100,1000,100),damage:finite(p.damage,10,100,10),fire:finite(p.fire,.07,.3,.2),regen:finite(p.regen,1,6,1),shot:finite(p.shot,0,1),regenTime:finite(p.regenTime,0,5),inv:finite(p.inv,0,2),dash:finite(p.dash,0,.2),cooldown:finite(p.cooldown,0,2.4),dx:finite(p.dx,-1,1),dy:finite(p.dy,-1,1,-1),shield:finite(p.shield,0,12),spread:finite(p.spread,0,12),rapid:finite(p.rapid,0,12)},enemies:entityList(r.enemies,64,'enemy'),shots:entityList(r.shots,180,'bullet'),hostile:entityList(r.hostile,260,'hostile'),powers:entityList(r.powers,20,'power'),boss:null};
+ const out={version:2,seed:integer(r.seed,0,4294967295,123456),time:finite(r.time,0,1e8),score:integer(r.score,0,1e12),earned:integer(r.earned,0,1e9),kills:integer(r.kills,0,1e9),wave:integer(r.wave,1,10000,1),spawned:integer(r.spawned,0,64),cleared:integer(r.cleared,0,64),spawn:finite(r.spawn,-10,10),breakTime:finite(r.breakTime,0,3),combo:integer(r.combo,1,8,1),comboTime:finite(r.comboTime,0,4),bestCombo:integer(r.bestCombo,1,8,1),bombs:integer(r.bombs,0,3,1),bossDone:!!r.bossDone,shipType:integer(r.shipType,0,2),player:{x:finite(p.x,16,584,300),y:finite(p.y,100,775,680),px:finite(p.x,16,584,300),py:finite(p.y,100,775,680),hp:finite(p.hp,.01,1000,100),max:finite(p.max,100,1000,100),damage:finite(p.damage,10,100,10),fire:finite(p.fire,.07,.3,.2),regen:finite(p.regen,1,6,1),shot:finite(p.shot,0,1),regenTime:finite(p.regenTime,0,5),inv:finite(p.inv,0,2),dash:finite(p.dash,0,.2),cooldown:finite(p.cooldown,0,2.4),dx:finite(p.dx,-1,1),dy:finite(p.dy,-1,1,-1),shield:finite(p.shield,0,12),spread:finite(p.spread,0,12),rapid:finite(p.rapid,0,12)},enemies:entityList(r.enemies,64,'enemy'),shots:entityList(r.shots,180,'bullet'),hostile:entityList(r.hostile,260,'hostile'),powers:entityList(r.powers,20,'power'),boss:null};
  if(r.boss&&Number.isFinite(r.boss.hp)&&r.boss.hp>0){const b=r.boss;out.boss={x:finite(b.x,55,545,300),y:finite(b.y,-100,850,150),hp:finite(b.hp,.01,1e7,200),max:finite(b.max,1,1e7,200),type:integer(b.type,0,2),t:finite(b.t,0,1e8),sineT:finite(b.sineT,0,1e8),shot:finite(b.shot,-10,10,1),phase:['enter','idle','warn','down','up'].includes(b.phase)?b.phase:'enter',timer:finite(b.timer,0,20),target:finite(b.target,60,540,300),r:45,dead:false};}
  return out;
 }
@@ -131,11 +133,24 @@ function renderShop(){
   const level=data.upgrades[k],el=document.createElement('div');el.className='upgrade';el.innerHTML='<div class="upgrade-icon" aria-hidden="true"></div><div><h3></h3><p></p><div class="track"><i></i></div></div><button></button>';el.querySelector('.upgrade-icon').textContent=u.icon;
   el.querySelector('h3').textContent=u.name;
   const s=document.createElement('span');s.className='level';s.textContent=u.cap===9999?'LVL '+level:'LVL '+level+' / '+u.cap;
-  el.querySelector('h3').append(s);
-  el.querySelector('p').textContent=u.desc;
+  el.querySelector('h3').append(s);el.querySelector('p').textContent=u.desc;
   el.querySelector('i').style.width=(u.cap===9999 ? 100 : level/u.cap*100)+'%';
-  const b=el.querySelector('button');b.textContent=level>=u.cap?'MAXED':fmt(cost(k))+' C';b.disabled=level>=u.cap||data.coins<cost(k);b.setAttribute('aria-label','Upgrade '+u.name+' for '+cost(k)+' credits');
-  b.onclick=()=>{if(level!==data.upgrades[k]||data.coins<cost(k)||level>=u.cap)return;data.coins-=cost(k);data.upgrades[k]++;save();renderProfile();renderShop();sound('reward');toast(u.name+' upgraded. Ready for your next flight.');};$('upgrades').append(el);
+  const b=el.querySelector('button');b.textContent=level>=u.cap?'MAXED':fmt(cost(k))+' C';b.disabled=level>=u.cap||data.coins<cost(k);
+  b.onclick=()=>{if(level!==data.upgrades[k]||data.coins<cost(k)||level>=u.cap)return;data.coins-=cost(k);data.upgrades[k]++;save();renderProfile();renderShop();sound('reward');toast(u.name+' upgraded.');};$('upgrades').append(el);
+ }
+ $('fleet').replaceChildren();
+ for(const s of SHIPS){
+  const el=document.createElement('div');el.className='upgrade';
+  el.innerHTML='<div class="upgrade-icon" aria-hidden="true"></div><div><h3></h3><p></p></div><button></button>';
+  el.querySelector('.upgrade-icon').textContent=s.id===0?'✈':(s.id===1?'🚀':'🛸');
+  el.querySelector('h3').textContent=s.name;
+  el.querySelector('p').textContent=s.desc;
+  const b=el.querySelector('button');
+  if(data.ship===s.id){b.textContent='EQUIPPED';b.disabled=true;}
+  else if(data.unlockedShips.includes(s.id)){b.textContent='EQUIP';b.onclick=()=>{data.ship=s.id;save();renderShop();};}
+  else if(data.best<s.score){b.textContent='REQ '+fmt(s.score)+' PTS';b.disabled=true;}
+  else{b.textContent=fmt(s.cost)+' C';b.disabled=data.coins<s.cost;b.onclick=()=>{if(data.coins>=s.cost){data.coins-=s.cost;data.unlockedShips.push(s.id);data.ship=s.id;save();renderShop();renderProfile();sound('reward');toast(s.name+' UNLOCKED');}};}
+  $('fleet').append(el);
  }
  $('achievements').replaceChildren();
  for(const a of ACHIEVEMENTS){const el=document.createElement('div');el.className='achievement'+(data.achievements.includes(a.id)?' done':'');const name=document.createElement('strong');name.textContent=(data.achievements.includes(a.id)?'✓ ':'◇ ')+a.name;const desc=document.createElement('span');desc.textContent=a.desc;el.append(name,desc);$('achievements').append(el);}
@@ -206,7 +221,7 @@ function waveSize(){return Math.min(28,8+(run.wave-1)*2);}
 function isBossWave(){return run.wave%4===0;}
 function announce(title,sub='',duration=2.2){waveMessage=title;waveSub=sub;waveMessageTime=duration;$('waveToast').replaceChildren(document.createTextNode(title));if(sub){const el=document.createElement('small');el.textContent=sub;$('waveToast').append(el);}}
 function newRun(){
- const u=data.upgrades;run={version:2,seed:(Date.now()^Math.floor(Math.random()*4294967295))>>>0,time:0,score:0,earned:0,kills:0,wave:1,spawned:0,cleared:0,spawn:.4,breakTime:1.4,combo:1,comboTime:0,bestCombo:1,bombs:1,bossDone:false,player:{x:300,y:680,px:300,py:680,hp:100+u.hp*12,max:100+u.hp*12,damage:10*(1+u.dmg*.10),fire:.2/(1+u.fire*.05),regen:1+u.regen,shot:0,regenTime:0,inv:1,dash:0,cooldown:0,dx:0,dy:-1,shield:0,spread:0,rapid:0},enemies:[],shots:[],hostile:[],powers:[],boss:null};
+ const u=data.upgrades;run={version:2,seed:(Date.now()^Math.floor(Math.random()*4294967295))>>>0,time:0,score:0,earned:0,kills:0,wave:1,spawned:0,cleared:0,spawn:.4,breakTime:1.4,combo:1,comboTime:0,bestCombo:1,bombs:1,bossDone:false,shipType:data.ship,player:{x:300,y:680,px:300,py:680,hp:100+u.hp*12,max:100+u.hp*12,damage:10*(1+u.dmg*.10),fire:.2/(1+u.fire*.05),regen:1+u.regen,shot:0,regenTime:0,inv:1,dash:0,cooldown:0,dx:0,dy:-1,shield:0,spread:0,rapid:0},enemies:[],shots:[],hostile:[],powers:[],boss:null};
  particles=[];labels=[];rings=[];shake=0;flash=0;save();enterFlight();announce('WAVE 01','Clear the sector. Build your chain.');sound('launch');
 }
 function enterFlight(){
@@ -239,18 +254,14 @@ function shootHostile(x,y,vx,vy,r=5,damage=12){if(run.hostile.length<260){run.ho
 function updateBoss(dt){
  const b=run.boss;if(!b||b.dead)return;b.t+=dt;b.timer+=dt;b.shot-=dt;
  if(b.phase==='enter'||b.phase==='idle')b.sineT+=dt;
-
  if(b.phase==='enter'){b.y+=100*dt;if(b.y>=155){b.y=155;b.phase='idle';b.timer=0;b.sineT=0;}return;}
- 
  if(b.type===2){
   if(b.phase==='idle'&&b.timer>=5){b.phase='warn';b.target=clamp(run.player.x,65,535);b.timer=0;announce('DIVE WARNING','Move out of the marked lane.',1.1);sound('warning');}
   if(b.phase==='warn'){b.x+=(b.target-b.x)*Math.min(1,dt*8);if(b.timer>=1.25){b.phase='down';b.timer=0;}return;}
   if(b.phase==='down'){b.y+=520*dt;if(b.y>=730){b.phase='up';b.timer=0;}return;}
   if(b.phase==='up'){b.y-=250*dt;if(b.y<=155){b.y=155;b.phase='idle';b.timer=0;b.shot=.8;b.sineT=Math.asin(clamp((b.x-300)/205,-1,1))/0.65||0;}return;}
  }
- 
  if(b.type!==2||b.phase==='idle')b.x=300+Math.sin(b.sineT*.65)*205;
- 
  if(b.shot<=0){
   if(b.type===1){for(let i=0;i<12;i++){const a=i*Math.PI/6+b.t*.35;shootHostile(b.x,b.y,Math.cos(a)*180,Math.sin(a)*180,5,15);}b.shot=0.55;}
   else {const a=Math.atan2(run.player.y-b.y,run.player.x-b.x);for(let i=-2;i<=2;i++)shootHostile(b.x,b.y+28,Math.cos(a+i*.2)*220,Math.sin(a+i*.2)*220,5,15);b.shot=b.type===2?.45:.65;}
@@ -333,7 +344,25 @@ function tick(dt){
  else if(pointer.active){const x=pointer.x-p.x,y=pointer.y-p.y,len=Math.hypot(x,y),speed=Math.min(1,480*dt/(len||1));p.x+=x*speed;p.y+=y*speed;}
  p.x=clamp(p.x,18,582);p.y=clamp(p.y,110,775);
  p.regenTime+=dt;if(p.regenTime>=5){p.regenTime-=5;p.hp=Math.min(p.max,p.hp+p.regen);dirty=true;}
- p.shot-=dt;if(p.shot<=0){p.shot=p.fire*(p.rapid>0?.62:1);const spread=p.spread>0?[-.2,0,.2]:[0];for(const a of spread)if(run.shots.length<180)run.shots.push({x:p.x,y:p.y-19,px:p.x,py:p.y-19,vx:Math.sin(a)*700,vy:-Math.cos(a)*700,r:3,damage:p.damage,dead:false});sound('shot');}
+ p.shot-=dt;if(p.shot<=0){
+  p.shot=p.fire*(p.rapid>0?.62:1);
+  const t = run.shipType||0;
+  let spread = p.spread>0?[-.2,0,.2]:[0];
+  if(t===1) spread = p.spread>0?[-.3,-.15,0,.15,.3]:[-.15,0,.15];
+  if(t===2){
+   const targets=run.enemies.filter(e=>!e.dead&&e.y>0).sort((a,b)=>Math.hypot(p.x-a.x,p.y-a.y)-Math.hypot(p.x-b.x,p.y-b.y));
+   const angles=p.spread>0?[-.25,0,.25]:[-.15,.15];
+   angles.forEach((offset,i)=>{
+    let vx=Math.sin(offset)*850,vy=-Math.cos(offset)*850,dmg=p.damage*0.8;
+    let target=targets[i%targets.length]||targets[0];
+    if(target&&Math.hypot(p.x-target.x,p.y-target.y)<550){let a=Math.atan2(target.y-(p.y-19),target.x-p.x);vx=Math.cos(a)*1050;vy=Math.sin(a)*1050;}
+    if(run.shots.length<180)run.shots.push({x:p.x+(offset*60),y:p.y-19,px:p.x+(offset*60),py:p.y-19,vx,vy,r:3.5,damage:dmg,dead:false});
+   });
+  } else {
+   spread.forEach(a=>{if(run.shots.length<180)run.shots.push({x:p.x,y:p.y-19,px:p.x,py:p.y-19,vx:Math.sin(a)*700,vy:-Math.cos(a)*700,r:3,damage:p.damage,dead:false});});
+  }
+  sound('shot');
+ }
  if(run.comboTime>0){run.comboTime=Math.max(0,run.comboTime-dt);if(run.comboTime===0)run.combo=1;}
  if(run.breakTime>0){run.breakTime=Math.max(0,run.breakTime-dt);if(run.breakTime===0)announce('WAVE '+String(run.wave).padStart(2,'0'),isBossWave()?'Boss sector':'Keep the chain alive.',1.3);}
  else if(isBossWave()){if(!run.boss&&!run.bossDone)spawnBoss();updateBoss(dt);}
@@ -405,14 +434,25 @@ window.addEventListener('storage',e=>{
  takeConflict();
 });
 function polygon(points,fill,stroke,line=1.5){ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=line;ctx.stroke();}}
-function drawShip(x,y,size=19){
+function drawShip(x,y,type=0,size=19){
  ctx.save();ctx.translate(x,y);const p=run?.player;
  if(p&&p.inv>0&&Math.floor(run.time*14)%2===0)ctx.globalAlpha=.45;
  const s=size/19;ctx.scale(s,s);
  const flame=state==='playing'?12+Math.sin((run?.time||0)*45)*5:16;
- polygon([[-5,16],[5,16],[0,16+flame]],'#8af5ff');
- polygon([[0,-25],[9,-3],[21,18],[9,14],[4,20],[0,15],[-4,20],[-9,14],[-21,18],[-9,-3]],'#0d2937','#70effa',1.6);
- polygon([[0,-14],[4,2],[0,7],[-4,2]],'#85f3ff');ctx.strokeStyle='#337b90';ctx.beginPath();ctx.moveTo(0,-25);ctx.lineTo(0,15);ctx.stroke();
+ if (type === 1) { 
+  polygon([[-6,16],[6,16],[0,16+flame]],'#ffad5b');
+  polygon([[0,-25],[12,-3],[24,18],[10,14],[4,20],[0,15],[-4,20],[-10,14],[-24,18],[-12,-3]],'#1a110a','#ffad5b',1.6);
+  polygon([[0,-14],[5,2],[0,7],[-5,2]],'#ffe4c4');
+ } else if (type === 2) { 
+  polygon([[-4,16],[4,16],[0,16+flame]],'#e899d7');
+  polygon([[0,-28],[8,-10],[22,2],[14,12],[6,18],[0,12],[-6,18],[-14,12],[-22,2],[-8,-10]],'#1c0f24','#e899d7',1.6);
+  polygon([[0,-16],[3,0],[0,5],[-3,0]],'#fbdcff');
+ } else {
+  polygon([[-5,16],[5,16],[0,16+flame]],'#8af5ff');
+  polygon([[0,-25],[9,-3],[21,18],[9,14],[4,20],[0,15],[-4,20],[-9,14],[-21,18],[-9,-3]],'#0d2937','#70effa',1.6);
+  polygon([[0,-14],[4,2],[0,7],[-4,2]],'#85f3ff');
+  ctx.strokeStyle='#337b90';ctx.beginPath();ctx.moveTo(0,-25);ctx.lineTo(0,15);ctx.stroke();
+ }
  if(p?.shield>0){ctx.strokeStyle='#8cf2be';ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(0,0,31,0,Math.PI*2);ctx.stroke();}
  if(p?.dash>0){ctx.strokeStyle='#d9ffff';ctx.beginPath();ctx.moveTo(-16,20);ctx.lineTo(-16,65);ctx.moveTo(16,20);ctx.lineTo(16,65);ctx.stroke();}
  ctx.restore();
@@ -445,13 +485,18 @@ function render(dt){
  ctx.strokeStyle='#16303c';ctx.lineWidth=.7;ctx.strokeRect(.5,.5,W-1,H-1);
  for(const s of stars){ctx.fillStyle='rgba(163,217,240,'+(s.z*.5)+')';ctx.fillRect(s.x/width*W,s.y/height*H,1+s.z,1+s.z*2);}
  if(shake>0&&!data.settings.reduced)ctx.translate((Math.random()-.5)*7,(Math.random()-.5)*7);
+ 
+ ctx.beginPath();
+ ctx.rect(-50, 105, W+100, H); 
+ ctx.clip();
+
  if(run){
   for(const power of run.powers){const c=power.type==='emp'?'#ffad5b':'#8cf2be';ctx.save();ctx.translate(power.x,power.y);polygon([[0,-15],[14,-7],[14,7],[0,15],[-14,7],[-14,-7]],'#0a2530',c);ctx.fillStyle=c;ctx.font='bold 12px Consolas,monospace';ctx.textAlign='center';ctx.fillText({shield:'S',spread:'W',rapid:'R',repair:'+',emp:'E'}[power.type],0,4);ctx.restore();}
   ctx.fillStyle='#8af5ff';for(const s of run.shots)ctx.fillRect(s.x-1.5,s.y-7,3,14);
   for(const e of run.enemies)if(!e.dead)drawEnemy(e);
   if(run.boss)drawBoss(run.boss);
   for(const s of run.hostile){ctx.fillStyle='#ff627c';ctx.beginPath();ctx.arc(s.x,s.y,s.r+1.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffe0d4';ctx.beginPath();ctx.arc(s.x,s.y,s.r*.45,0,Math.PI*2);ctx.fill();}
-  drawShip(run.player.x,run.player.y);
+  drawShip(run.player.x,run.player.y,run.shipType);
   const buffs=['shield','spread','rapid'].filter(k=>run.player[k]>0);ctx.font='10px Consolas,monospace';ctx.textAlign='center';ctx.fillStyle='#8cf2be';buffs.forEach((k,i)=>ctx.fillText(k.toUpperCase()+' '+Math.ceil(run.player[k])+'s',W/2,H-18-i*15));
  }
  for(const p of particles){ctx.globalAlpha=clamp(p.life/.4,0,1);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,2,2);}ctx.globalAlpha=1;
