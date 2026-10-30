@@ -29,7 +29,10 @@
 <div class="brief"><h1><span>NEON</span><small>STARFIGHTER</small></h1><p class="tagline">One more wave. Make it count.</p><div class="actions"><button class="primary" id="startBtn">Launch flight <span aria-hidden="true">↗</span></button><button id="resumeBtn" hidden>Resume flight <span aria-hidden="true">→</span></button><button id="hangarBtn">Hangar <span aria-hidden="true">→</span></button></div><div id="missions" class="mission-list" aria-label="Pilot missions"></div></div>
 <div class="art-wrap"><svg class="ship-art" viewBox="0 0 500 480" aria-hidden="true"><defs><radialGradient id="halo"><stop stop-color="#2aaac1" stop-opacity=".13"/><stop offset="1" stop-color="#0a1827" stop-opacity="0"/></radialGradient><linearGradient id="hull" x2="1" y2="1"><stop stop-color="#102e40"/><stop offset="1" stop-color="#06131e"/></linearGradient><linearGradient id="exhaust" x2="0" y2="1"><stop stop-color="#a7ffff"/><stop offset="1" stop-color="#50deff" stop-opacity="0"/></linearGradient></defs><circle cx="250" cy="240" r="215" fill="url(#halo)"/><g stroke="#254958" fill="none"><circle cx="250" cy="240" r="178"/><circle cx="250" cy="240" r="150" stroke-dasharray="3 14"/><path d="M250 37v48M250 399v48M45 240h50m310 0h50"/><path d="M107 96l15 15m256 256 15 15M107 384l15-15M378 111l15-15"/></g><g fill="url(#exhaust)"><path d="M228 347h16l-8 100zM257 347h16l-8 100zM156 320h12l-6 53zM332 320h12l-6 53z"/></g><g stroke="#5ce8f5" stroke-width="1.8" fill="url(#hull)" stroke-linejoin="round"><path d="M250 66l25 152 34 57 12-68 14 13 4 63 52 55-2 29-84-28-27 29-28-17-28 17-27-29-84 28-2-29 52-55 4-63 14-13 12 68 34-57z"/><path d="M250 66v285m-25-133 25-35 25 35-5 94-20 31-20-31zM195 339l16-65m94 65-16-65M109 338l79-35m203 35-79-35M165 220l-4 100m174-100 4 100M228 347h16v-27m29 27h-16v-27"/><path d="M250 103l12 85-12-14-12 14z" fill="#17485c"/><path d="M241 223l9-15 9 15v49l-9 17-9-17z" fill="#20718a"/><path d="m118 344 64-27-5 16-58 20zM382 344l-64-27 5 16 58 20z" fill="#123e51"/></g><g fill="#8bf7ff"><circle cx="250" cy="194" r="2"/><circle cx="172" cy="289" r="2"/><circle cx="328" cy="289" r="2"/></g></svg><div class="art-label">NF–01 / INTERCEPTOR CLASS</div></div>
 </section>
-<section class="view page" id="hangar" hidden aria-label="Hangar"><div class="page-header"><div><h2>Build your edge.</h2><p class="muted mono" style="font-size:11px">Available credits <strong class="credit" id="shopCoins">0</strong></p></div><button data-home>Back</button></div><p>Permanent upgrades. Every flight gets you further.</p><div id="upgrades"></div><div class="note" id="upgradeNote">Upgrades apply to your next flight.</div>
+<section class="view page" id="hangar" hidden aria-label="Hangar">
+<div class="page-header"><div><h2>Build your edge.</h2><p class="muted mono" style="font-size:11px">Available credits <strong class="credit" id="shopCoins">0</strong></p></div><button data-home>Back</button></div>
+<div id="shipStats" class="result-grid" style="margin:-5px 0 24px;padding-bottom:24px;border-bottom:1px solid var(--line)"></div>
+<p>Permanent upgrades. Every flight gets you further.</p><div id="upgrades"></div><div class="note" id="upgradeNote">Upgrades apply to your next flight.</div>
 <h3 style="font-size:15px;margin-top:28px">Active fleet</h3><div id="fleet"></div>
 <h3 style="font-size:15px;margin-top:28px">Pilot milestones</h3><div id="achievements"></div></section>
 <section class="view page" id="settings" hidden aria-label="Settings"><div class="page-header"><h2>Flight systems.</h2><button data-home>Back</button></div><label class="setting">Sound effects<input type="checkbox" id="soundSetting"></label><label class="setting">Reduced effects<small>Fewer particles, no screen shake.</small><input type="checkbox" id="effectsSetting"></label><label class="setting">On-screen action buttons<input type="checkbox" id="controlsSetting"></label><label class="setting">Left-handed controls<input type="checkbox" id="leftSetting"></label><label class="setting">Button size<input type="range" id="sizeSetting" min="0.8" max="1.4" step="0.1" aria-label="Button size"></label><div class="backup-actions"><button id="editLayoutBtn">Move action buttons</button><button id="defaultLayoutBtn">Default positions</button></div><h3 style="font-size:16px;margin:30px 0 10px">Your progress, backed up.</h3><p style="font-size:12px">Flights save automatically. Keep a backup to move between devices, browsers or website embeds. Your progress stays on this browser; it is not synced to an account.</p><div class="backup-actions"><button id="exportBtn">Export save</button><button id="importBtn">Import save</button></div><label for="saveText" class="mono muted" style="font-size:10px">BACKUP CODE</label><textarea id="saveText" spellcheck="false" placeholder="Export a backup, or paste a previously exported save code here."></textarea><p id="backupStatus" class="inline-status" role="status"></p><div class="note">Move: WASD / arrow keys, or drag anywhere in the flight area. Auto-fire is always on. Dash: Space. EMP: B. Pause: P / Esc. Drag from below your ship on touchscreens to keep it visible.</div></section>
@@ -52,7 +55,7 @@ const fmt = n => Math.floor(n).toLocaleString('en-US');
 const KEY='neonStarfighter.v2', BACKUP=KEY+'.backup', LEGACY='neonStarfighterData';
 
 const UPGRADE={hp:{name:'Armor plating',icon:'◇',cap:9999,base:100,desc:'+12 max HP per level'},dmg:{name:'Blaster core',icon:'↟',cap:9999,base:120,desc:'+10% weapon damage per level'},fire:{name:'Overclock',icon:'»',cap:20,base:140,desc:'+5% firing speed per level'},regen:{name:'Nano bots',icon:'✧',cap:9999,base:160,desc:'+1 HP recovered every 5 seconds per level'}};
-const SHIPS=[{id:0,name:'NF-01 INTERCEPTOR',desc:'Standard issue starfighter.',cost:0,score:0},{id:1,name:'INTERCEPTOR MK.II',desc:'Built-in triple shot.',cost:100000,score:100000},{id:2,name:'PHANTOM VANGUARD',desc:'Dual auto-target lasers.',cost:500000,score:500000}];
+const SHIPS=[{id:0,name:'NF-01 INTERCEPTOR',desc:'Standard issue starfighter.',cost:0,score:0},{id:1,name:'INTERCEPTOR MK.II',desc:'Built-in triple shot.',cost:100000,score:100000},{id:2,name:'PHANTOM VANGUARD',desc:'Dual auto-target lasers.',cost:300000,score:300000}];
 const MISSIONS=[{key:'kills',goal:30,reward:100,label:'Destroy 30 enemies'},{key:'waves',goal:5,reward:150,label:'Clear 5 waves'},{key:'bosses',goal:3,reward:220,label:'Defeat 3 bosses'}];
 const ACHIEVEMENTS=[{id:'first',name:'First contact',desc:'Destroy your first enemy',stat:'kills',goal:1},{id:'chain',name:'In the zone',desc:'Reach a ×8 chain',stat:'chain',goal:8},{id:'boss',name:'Giant slayer',desc:'Defeat a boss',stat:'bosses',goal:1},{id:'wave',name:'Deep space',desc:'Reach wave 10',stat:'wave',goal:10}];
 function defaults(){return {version:2,revision:0,coins:0,best:0,xp:0,ship:0,unlockedShips:[0],upgrades:{hp:0,dmg:0,fire:0,regen:0},settings:{sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,controls:true,left:false,size:1,layout:null},stats:{kills:0,waves:0,bosses:0,chain:1,wave:1},missions:{kills:0,waves:0,bosses:0},achievements:[],run:null};}
@@ -129,14 +132,16 @@ function renderProfile(){
 const cost=k=>Math.round(UPGRADE[k].base*1.55**data.upgrades[k]/10)*10;
 function renderShop(){
  $('shopCoins').textContent=fmt(data.coins);$('upgrades').replaceChildren();
- for(const [k,u] of Object.entries(UPGRADE)){
-  const level=data.upgrades[k],el=document.createElement('div');el.className='upgrade';el.innerHTML='<div class="upgrade-icon" aria-hidden="true"></div><div><h3></h3><p></p><div class="track"><i></i></div></div><button></button>';el.querySelector('.upgrade-icon').textContent=u.icon;
-  el.querySelector('h3').textContent=u.name;
-  const s=document.createElement('span');s.className='level';s.textContent=u.cap===9999?'LVL '+level:'LVL '+level+' / '+u.cap;
-  el.querySelector('h3').append(s);el.querySelector('p').textContent=u.desc;
-  el.querySelector('i').style.width=(u.cap===9999 ? 100 : level/u.cap*100)+'%';
-  const b=el.querySelector('button');b.textContent=level>=u.cap?'MAXED':fmt(cost(k))+' C';b.disabled=level>=u.cap||data.coins<cost(k);
-  b.onclick=()=>{if(level!==data.upgrades[k]||data.coins<cost(k)||level>=u.cap)return;data.coins-=cost(k);data.upgrades[k]++;save();renderProfile();renderShop();sound('reward');toast(u.name+' upgraded.');};$('upgrades').append(el);
+ const u=data.upgrades;
+ $('shipStats').innerHTML='<div>MAX HP<strong>'+(100+u.hp*12)+'</strong></div><div>DAMAGE<strong>'+(10*(1+u.dmg*.1)).toFixed(1)+'</strong></div><div>FIRE RATE<strong>'+(1/(.2/(1+u.fire*.05))).toFixed(1)+'/s</strong></div><div>REGEN<strong>'+(1+u.regen)+' HP / 5s</strong></div>';
+ for(const [k,upgrade] of Object.entries(UPGRADE)){
+  const level=data.upgrades[k],el=document.createElement('div');el.className='upgrade';el.innerHTML='<div class="upgrade-icon" aria-hidden="true"></div><div><h3></h3><p></p><div class="track"><i></i></div></div><button></button>';el.querySelector('.upgrade-icon').textContent=upgrade.icon;
+  el.querySelector('h3').textContent=upgrade.name;
+  const s=document.createElement('span');s.className='level';s.textContent=upgrade.cap===9999?'LVL '+level:'LVL '+level+' / '+upgrade.cap;
+  el.querySelector('h3').append(s);el.querySelector('p').textContent=upgrade.desc;
+  el.querySelector('i').style.width=(upgrade.cap===9999 ? 100 : level/upgrade.cap*100)+'%';
+  const b=el.querySelector('button');b.textContent=level>=upgrade.cap?'MAXED':fmt(cost(k))+' C';b.disabled=level>=upgrade.cap||data.coins<cost(k);
+  b.onclick=()=>{if(level!==data.upgrades[k]||data.coins<cost(k)||level>=upgrade.cap)return;data.coins-=cost(k);data.upgrades[k]++;save();renderProfile();renderShop();sound('reward');toast(upgrade.name+' upgraded.');};$('upgrades').append(el);
  }
  $('fleet').replaceChildren();
  for(const s of SHIPS){
@@ -329,9 +334,11 @@ function collisions(){
  const b=run.boss;if(b&&!b.dead&&Math.hypot(p.x-b.x,p.y-b.y)<b.r+9){hitPlayer(28);if(!run)return;}
  for(const power of run.powers){if(power.dead)continue;const dist=Math.hypot(power.x-p.x,power.y-p.y);
   if(dist<65){power.x+=(p.x-power.x)*STEP*8;power.y+=(p.y-power.y)*STEP*8;}
-  if(dist<27){power.dead=true;const names={repair:'REPAIR +22 HP',emp:'EMP +1',shield:'SHIELD READY',spread:'TRIPLE SHOT · 10s',rapid:'RAPID FIRE · 10s'};
-   if(power.type==='repair')p.hp=Math.min(p.max,p.hp+22);else if(power.type==='emp'){if(run.bombs<3)run.bombs++;else earn(8,3);}else p[power.type]=10;
-   floatText(p.x,p.y-30,names[power.type],'#8cf2be');sound('reward');dirty=true;save();
+  if(dist<27){power.dead=true;const names={emp:'EMP +1',shield:'SHIELD READY',spread:'TRIPLE SHOT · 10s',rapid:'RAPID FIRE · 10s'};
+   let msg=names[power.type];
+   if(power.type==='repair'){const h=Math.ceil(p.max*.2);p.hp=Math.min(p.max,p.hp+h);msg='REPAIR +'+h+' HP';}
+   else if(power.type==='emp'){if(run.bombs<3)run.bombs++;else earn(8,3);}else p[power.type]=10;
+   floatText(p.x,p.y-30,msg,'#8cf2be');sound('reward');dirty=true;save();
   }
  }
 }
