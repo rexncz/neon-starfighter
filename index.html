@@ -9,7 +9,9 @@
 <title>Neon Starfighter</title>
 <style>
 :root{color-scheme:dark;--bg:#050c14;--panel:#09141f;--line:#1d3c4b;--cyan:#59e8f5;--dim:#88a7b7;--orange:#ffad5b;--red:#ff627c;--green:#8cf2be;--mono:ui-monospace,Consolas,monospace}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#eaf8ff;font-family:Arial,Helvetica,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer;min-height:46px;border:1px solid var(--line);background:#091723;color:var(--cyan);padding:12px 20px;font:700 12px var(--mono);letter-spacing:1.5px;text-transform:uppercase;transition:background .15s,border-color .15s}button:hover{background:#122b39;border-color:var(--cyan)}button:disabled{cursor:default;opacity:.4}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:4px}button.primary{background:var(--orange);border-color:var(--orange);color:#23160e}button.primary:hover{background:#ffc48a}.hidden,[hidden]{display:none!important}.muted{color:var(--dim)}.mono{font-family:var(--mono)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#eaf8ff;font-family:Arial,Helvetica,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer;min-height:46px;border:1px solid var(--line);background:#091723;color:var(--cyan);padding:12px 20px;font:700 12px var(--mono);letter-spacing:1.5px;text-transform:uppercase;transition:background .15s,border-color .15s}button:hover{background:#122b39;border-color:var(--cyan)}button:disabled{cursor:default;opacity:.4}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:4px}button.primary{background:var(--orange);border-color:var(--orange);color:#23160e}button.primary:hover{background:#ffc48a}
+.story-btn{background:#36ddef;color:#050c14;border-color:#36ddef}.story-btn:hover{background:#8af5ff;border-color:#8af5ff}
+.hidden,[hidden]{display:none!important}.muted{color:var(--dim)}.mono{font-family:var(--mono)}
 #app{height:100vh;height:100dvh;min-height:360px;position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 75% 40%,#102334 0,transparent 53%)}#sky{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}.top{height:78px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);margin:0 4%;gap:16px}.brand{font-size:24px;letter-spacing:3px;font-weight:900;font-style:italic;color:var(--cyan);line-height:.9}.brand small{display:block;font:9px var(--mono);letter-spacing:5px;margin-top:8px}.top nav{display:flex;gap:10px}.top button{background:transparent;font-size:10px;padding:9px 12px;min-height:40px}.shell{width:min(1120px,92%);height:calc(100% - 78px);margin:auto;display:flex;flex-direction:column}.view{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-color:var(--line) var(--bg)}#home{display:grid;grid-template-columns:46% 54%;align-items:center;position:relative;overflow:auto;padding:30px 0}.brief{padding:10px 30px 10px 0;position:relative;z-index:1}h1{font-size:clamp(36px,4.7vw,66px);line-height:.94;letter-spacing:-2px;margin:0 0 18px;font-weight:900}h1 span{color:var(--cyan);display:block;font-style:italic}h1 small{font-size:.58em;letter-spacing:1px;display:block;margin-top:10px}p{line-height:1.6;color:var(--dim)}.tagline{font-size:17px;margin:0 0 26px}.actions{display:flex;gap:10px;flex-wrap:wrap}.brief .actions{flex-direction:column;max-width:365px}.brief .actions button{text-align:left;display:flex;justify-content:space-between;font-size:14px;min-height:55px}.brief .actions button span{font-size:20px;line-height:18px}.ship-art{width:100%;max-height:450px;min-height:180px;filter:drop-shadow(0 0 13px #36ddef30)}.art-wrap{position:relative;display:grid;place-items:center}.art-label{position:absolute;bottom:0;font:10px var(--mono);color:var(--dim);letter-spacing:2px}.mission-list{margin-top:28px;max-width:365px}.mission{padding:13px 0;border-top:1px solid var(--line)}.mission-label{display:flex;justify-content:space-between;gap:10px;font:10px var(--mono);letter-spacing:.6px;margin-bottom:9px}.mission-label strong{color:var(--orange);font-weight:400}.track{height:3px;background:#19303e;overflow:hidden}.track i{display:block;height:100%;background:var(--cyan);width:0}.help-strip{display:flex;justify-content:space-between;gap:15px;font:10px var(--mono);color:var(--dim);padding:18px 0;border-top:1px solid var(--line);letter-spacing:.5px}.help-strip b{color:#d9f4ff;font-weight:400}kbd{border:1px solid #486675;padding:3px 5px;color:#d9f4ff;font:10px var(--mono)}.profile{border-top:1px solid var(--line);display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:20px;padding:20px 0 23px;font:11px var(--mono);letter-spacing:1px}.profile>div+div{border-left:1px solid var(--line);padding-left:24px}.profile label{display:block;color:var(--dim);font-size:9px;margin-bottom:8px}.profile strong{font-size:18px;font-weight:400}.profile .track{max-width:165px;margin-top:8px}.credit{color:var(--orange)}
 .page{max-width:740px;margin:0 auto;padding:34px 0 25px;width:100%}.page h2{font-size:32px;letter-spacing:-1px;margin:0 0 8px}.page>p{font-size:13px;margin:0 0 24px}.page-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}.upgrade{display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:16px;border-top:1px solid var(--line);padding:20px 0}.upgrade-icon{color:var(--cyan);font:26px var(--mono);text-align:center}.upgrade h3{font-size:16px;margin:0 0 6px}.upgrade p{font-size:12px;margin:0}.upgrade .track{margin-top:12px;max-width:230px}.upgrade button{letter-spacing:.5px;min-width:112px}.level{font:10px var(--mono);color:var(--cyan);margin-left:9px}.setting{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 0;border-top:1px solid var(--line);font-size:13px}.setting small{display:block;color:var(--dim);margin-top:6px;line-height:1.5}.setting input[type=checkbox]{width:24px;height:24px;accent-color:var(--cyan);flex-shrink:0}.setting input[type=range]{width:130px;accent-color:var(--cyan)}.note{font:11px/1.7 var(--mono);color:var(--dim);border-left:2px solid var(--cyan);padding:10px 15px;background:#0a1923;margin:18px 0}.backup-actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}textarea{width:100%;height:95px;resize:vertical;background:#040b12;color:var(--cyan);border:1px solid var(--line);padding:12px;font:11px var(--mono)}.inline-status{font:11px/1.6 var(--mono);color:var(--green);min-height:20px}.achievement{display:flex;justify-content:space-between;gap:10px;padding:15px 0;border-top:1px solid var(--line);font-size:12px}.achievement span{color:var(--dim)}.achievement.done{color:var(--orange)}
 #play{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at 50% 45%,#102130,#050c14 70%)}#gameCanvas{display:block;position:absolute;inset:0;width:100%;height:100%;touch-action:none}
@@ -26,23 +28,36 @@
 <header class="top"><div class="brand" aria-label="Neon Starfighter">NEON<small>STARFIGHTER</small></div><nav aria-label="Game options"><button id="soundBtn" aria-pressed="false">Sound: off</button><button id="settingsBtn">Settings</button></nav></header>
 <div class="shell" id="shell">
 <section class="view" id="home" aria-label="Flight briefing">
-<div class="brief"><h1><span>NEON</span><small>STARFIGHTER</small></h1><p class="tagline">One more wave. Make it count.</p><div class="actions"><button class="primary" id="startBtn">Launch flight <span aria-hidden="true">↗</span></button><button id="resumeBtn" hidden>Resume flight <span aria-hidden="true">→</span></button><button id="hangarBtn">Hangar <span aria-hidden="true">→</span></button></div><div id="missions" class="mission-list" aria-label="Pilot missions"></div></div>
+<div class="brief"><h1><span>NEON</span><small>STARFIGHTER</small></h1><p class="tagline">One more wave. Make it count.</p><div class="actions">
+<button class="primary" id="arcadeBtn">Arcade <span aria-hidden="true">↗</span></button>
+<button class="story-btn" id="campaignBtn">Campaign <span aria-hidden="true">→</span></button>
+<button id="resumeBtn" hidden>Resume flight <span aria-hidden="true">→</span></button>
+<button id="hangarBtn">Hangar <span aria-hidden="true">→</span></button>
+</div><div id="missions" class="mission-list" aria-label="Pilot missions"></div></div>
 <div class="art-wrap"><svg class="ship-art" viewBox="0 0 500 480" aria-hidden="true"><defs><radialGradient id="halo"><stop stop-color="#2aaac1" stop-opacity=".13"/><stop offset="1" stop-color="#0a1827" stop-opacity="0"/></radialGradient><linearGradient id="hull" x2="1" y2="1"><stop stop-color="#102e40"/><stop offset="1" stop-color="#06131e"/></linearGradient><linearGradient id="exhaust" x2="0" y2="1"><stop stop-color="#a7ffff"/><stop offset="1" stop-color="#50deff" stop-opacity="0"/></linearGradient></defs><circle cx="250" cy="240" r="215" fill="url(#halo)"/><g stroke="#254958" fill="none"><circle cx="250" cy="240" r="178"/><circle cx="250" cy="240" r="150" stroke-dasharray="3 14"/><path d="M250 37v48M250 399v48M45 240h50m310 0h50"/><path d="M107 96l15 15m256 256 15 15M107 384l15-15M378 111l15-15"/></g><g fill="url(#exhaust)"><path d="M228 347h16l-8 100zM257 347h16l-8 100zM156 320h12l-6 53zM332 320h12l-6 53z"/></g><g stroke="#5ce8f5" stroke-width="1.8" fill="url(#hull)" stroke-linejoin="round"><path d="M250 66l25 152 34 57 12-68 14 13 4 63 52 55-2 29-84-28-27 29-28-17-28 17-27-29-84 28-2-29 52-55 4-63 14-13 12 68 34-57z"/><path d="M250 66v285m-25-133 25-35 25 35-5 94-20 31-20-31zM195 339l16-65m94 65-16-65M109 338l79-35m203 35-79-35M165 220l-4 100m174-100 4 100M228 347h16v-27m29 27h-16v-27"/><path d="M250 103l12 85-12-14-12 14z" fill="#17485c"/><path d="M241 223l9-15 9 15v49l-9 17-9-17z" fill="#20718a"/><path d="m118 344 64-27-5 16-58 20zM382 344l-64-27 5 16 58 20z" fill="#123e51"/></g><g fill="#8bf7ff"><circle cx="250" cy="194" r="2"/><circle cx="172" cy="289" r="2"/><circle cx="328" cy="289" r="2"/></g></svg><div class="art-label">NF–01 / INTERCEPTOR CLASS</div></div>
 </section>
+
+<section class="view page" id="campaignPage" hidden aria-label="Campaign">
+<div class="page-header"><div><h2>Campaign log.</h2></div><button data-home>Back</button></div>
+<p>Complete operations to unlock new sectors and earn massive one-time credit payouts.</p>
+<div id="campaignList"></div>
+</section>
+
 <section class="view page" id="hangar" hidden aria-label="Hangar">
 <div class="page-header"><div><h2>Build your edge.</h2><p class="muted mono" style="font-size:11px">Available credits <strong class="credit" id="shopCoins">0</strong></p></div><button data-home>Back</button></div>
 <div id="shipStats" class="result-grid" style="margin:-5px 0 24px;padding-bottom:24px;border-bottom:1px solid var(--line)"></div>
 <p>Permanent upgrades. Every flight gets you further.</p><div id="upgrades"></div><div class="note" id="upgradeNote">Upgrades apply to your next flight.</div>
 <h3 style="font-size:15px;margin-top:28px">Active fleet</h3><div id="fleet"></div>
 <h3 style="font-size:15px;margin-top:28px">Pilot milestones</h3><div id="achievements"></div></section>
+
 <section class="view page" id="settings" hidden aria-label="Settings"><div class="page-header"><h2>Flight systems.</h2><button data-home>Back</button></div><label class="setting">Sound effects<input type="checkbox" id="soundSetting"></label><label class="setting">Reduced effects<small>Fewer particles, no screen shake.</small><input type="checkbox" id="effectsSetting"></label><label class="setting">On-screen action buttons<input type="checkbox" id="controlsSetting"></label><label class="setting">Left-handed controls<input type="checkbox" id="leftSetting"></label><label class="setting">Button size<input type="range" id="sizeSetting" min="0.8" max="1.4" step="0.1" aria-label="Button size"></label><div class="backup-actions"><button id="editLayoutBtn">Move action buttons</button><button id="defaultLayoutBtn">Default positions</button></div><h3 style="font-size:16px;margin:30px 0 10px">Your progress, backed up.</h3><p style="font-size:12px">Flights save automatically. Keep a backup to move between devices, browsers or website embeds. Your progress stays on this browser; it is not synced to an account.</p><div class="backup-actions"><button id="exportBtn">Export save</button><button id="importBtn">Import save</button></div><label for="saveText" class="mono muted" style="font-size:10px">BACKUP CODE</label><textarea id="saveText" spellcheck="false" placeholder="Export a backup, or paste a previously exported save code here."></textarea><p id="backupStatus" class="inline-status" role="status"></p><div class="note">Move: WASD / arrow keys, or drag anywhere in the flight area. Auto-fire is always on. Dash: Space. EMP: B. Pause: P / Esc. Drag from below your ship on touchscreens to keep it visible.</div></section>
 <div class="help-strip" id="menuHelp"><span class="desktop-help"><kbd>W A S D</kbd> / ARROWS <b>MOVE</b></span><span class="desktop-help"><kbd>SPACE</kbd> <b>DASH</b> &nbsp; <kbd>B</kbd> <b>EMP</b></span><span>DRAG TO MOVE · AUTO-FIRE ON</span></div>
 <footer class="profile"><div><label>PILOT RANK</label><strong id="rank">LVL 1</strong><div class="track" aria-hidden="true"><i id="xpFill"></i></div></div><div><label>PERSONAL BEST</label><strong id="best">0</strong></div><div><label>CREDITS</label><strong class="credit" id="coins">0</strong></div></footer>
 </div>
-<section id="play" hidden aria-label="Active flight"><canvas id="gameCanvas" tabindex="0" aria-label="Flight area. Move with arrow keys or WASD. Space to dash. B for EMP. P to pause."></canvas><div class="hud"><div><span>SCORE</span><strong id="score">0</strong><div class="combo" id="combo">CHAIN ×1<div class="track"><i id="comboFill"></i></div></div></div><div class="hud-center"><span id="wave">WAVE 01</span><strong id="waveProgress">0 / 8</strong><span id="waveType" class="muted">CLEAR THE SECTOR</span></div><div class="hud-right"><button id="pauseBtn" aria-label="Pause flight">Ⅱ Pause</button><div class="hp"><height:5px;background:#482333;width:min(125px,22vw);margin:9px 0><i id="hpFill"></i></div><span id="hp">100 / 100 HP</span></div></div><div id="bossHud" hidden><span id="bossName">SENTINEL</span><div class="track"><i id="bossFill"></i></div></div><div id="waveToast" role="status"></div><div id="flightHint">AUTO-FIRE ON · DRAG / WASD TO MOVE · P TO PAUSE</div><div class="flight-controls" id="flightControls"><button id="dashBtn">Dash<small id="dashText">SPACE · READY</small></button><button id="empBtn">EMP<small id="empText">B · 1 CHARGE</small></button></div><div id="layoutBar" hidden><p>Drag the action buttons to a comfortable position.</p><button id="saveLayoutBtn" class="primary">Save layout</button></div></section>
+<section id="play" hidden aria-label="Active flight"><canvas id="gameCanvas" tabindex="0" aria-label="Flight area. Move with arrow keys or WASD. Space to dash. B for EMP. P to pause."></canvas><div class="hud"><div><span>SCORE</span><strong id="score">0</strong><div class="combo" id="combo">CHAIN ×1<div class="track"><i id="comboFill"></i></div></div></div><div class="hud-center"><span id="wave">WAVE 01</span><strong id="waveProgress">0 / 8</strong><span id="waveType" class="muted">CLEAR THE SECTOR</span></div><div class="hud-right"><button id="pauseBtn" aria-label="Pause flight">Ⅱ Pause</button><div class="hp"><i id="hpFill"></i></div><span id="hp">100 / 100 HP</span></div></div><div id="bossHud" hidden><span id="bossName">SENTINEL</span><div class="track"><i id="bossFill"></i></div></div><div id="waveToast" role="status"></div><div id="flightHint">AUTO-FIRE ON · DRAG / WASD TO MOVE · P TO PAUSE</div><div class="flight-controls" id="flightControls"><button id="dashBtn">Dash<small id="dashText">SPACE · READY</small></button><button id="empBtn">EMP<small id="empText">B · 1 CHARGE</small></button></div><div id="layoutBar" hidden><p>Drag the action buttons to a comfortable position.</p><button id="saveLayoutBtn" class="primary">Save layout</button></div></section>
 <div class="overlay" id="pauseOverlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="pauseTitle"><h2 id="pauseTitle">Take a breather.</h2><p>Flight paused. Your progress is saved.</p><div class="actions"><button id="continueBtn" class="primary">Resume flight</button><button id="saveExitBtn">Save & main menu</button></div></section></div>
 <div class="overlay" id="resultOverlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle"><h2 id="resultTitle">Flight complete.</h2><p id="resultSub">Every flight makes you stronger.</p><div class="result-grid"><div>SCORE<strong id="finalScore">0</strong></div><div>CREDITS EARNED<strong class="credit" id="earnedCoins">+0</strong></div><div>WAVE REACHED<strong id="finalWave">1</strong></div><div>BEST CHAIN<strong id="finalCombo">×1</strong></div></div><div class="actions"><button id="restartBtn" class="primary">Fly again</button><button id="resultShopBtn">Upgrade in hangar</button><button id="resultHomeBtn">Main menu</button></div></section></div>
-<div class="overlay" id="confirmOverlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><h2 id="confirmTitle">Replace saved flight?</h2><p id="confirmText">Starting over replaces your current flight. All earned credits and upgrades stay yours.</p><div class="actions"><button id="confirmBtn" class="primary">Start new flight</button><button id="cancelBtn">Keep my progress</button></div></section></div>
+<div class="overlay" id="confirmOverlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><h2 id="confirmTitle">Replace saved flight?</h2><p id="confirmText">Starting over replaces your current flight.</p><div class="actions"><button id="confirmBtn" class="primary">Start new flight</button><button id="cancelBtn">Keep my progress</button></div></section></div>
 <div id="toast" role="status" hidden></div><span id="saveStatus" role="status">LOCAL SAVE READY</span><div id="storageWarning" hidden role="status"><span id="storageMessage"></span><button id="backupOpenBtn">Backup</button></div><div class="overlay" id="conflict" hidden><section class="dialog" role="alertdialog" aria-modal="true" aria-label="Another tab is active"><h2>Another tab took over.</h2><p>Your flight is paused to prevent one tab from overwriting the other. Reload this tab to load the latest save.</p><button id="reloadBtn" class="primary">Load latest save</button></section></div>
 </main>
 <script>
@@ -58,10 +73,20 @@ const UPGRADE={hp:{name:'Armor plating',icon:'◇',cap:9999,base:100,desc:'+12 m
 const SHIPS=[{id:0,name:'NF-01 INTERCEPTOR',desc:'Standard issue starfighter.',cost:0,score:0},{id:1,name:'INTERCEPTOR MK.II',desc:'Built-in triple shot.',cost:100000,score:100000},{id:2,name:'PHANTOM VANGUARD',desc:'Dual auto-target lasers.',cost:300000,score:300000}];
 const MISSIONS=[{key:'kills',goal:30,reward:100,label:'Destroy 30 enemies'},{key:'waves',goal:5,reward:150,label:'Clear 5 waves'},{key:'bosses',goal:3,reward:220,label:'Defeat 3 bosses'}];
 const ACHIEVEMENTS=[{id:'first',name:'First contact',desc:'Destroy your first enemy',stat:'kills',goal:1},{id:'chain',name:'In the zone',desc:'Reach a ×8 chain',stat:'chain',goal:8},{id:'boss',name:'Giant slayer',desc:'Defeat a boss',stat:'bosses',goal:1},{id:'wave',name:'Deep space',desc:'Reach wave 10',stat:'wave',goal:10}];
-function defaults(){return {version:2,revision:0,coins:0,best:0,xp:0,ship:0,unlockedShips:[0],upgrades:{hp:0,dmg:0,fire:0,regen:0},settings:{sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,controls:true,left:false,size:1,layout:null},stats:{kills:0,waves:0,bosses:0,chain:1,wave:1},missions:{kills:0,waves:0,bosses:0},achievements:[],run:null};}
+
+const CAMPAIGN = [
+ {name:'OP 1: VANGUARD', desc:'Intercept the initial scout fleet. Survive 3 waves.', waves:3, boss:-1, reward:500},
+ {name:'OP 2: HEAVY METAL', desc:'A Sentinel blocks the hyperspace lane.', waves:4, boss:0, reward:1200},
+ {name:'OP 3: SWARM TACTICS', desc:'High density hostile presence. Hold the line.', waves:5, boss:-1, reward:2500},
+ {name:'OP 4: HIVE MIND', desc:'Infiltrate and eliminate the Hive commander.', waves:4, boss:1, reward:4500},
+ {name:'OP 5: DEEP SPACE', desc:'Push into hostile territory. Endure 7 waves.', waves:7, boss:-1, reward:7500},
+ {name:'OP 6: REAPER ACTUAL', desc:'Destroy the ultimate dreadnought.', waves:5, boss:2, reward:12000}
+];
+
+function defaults(){return {version:2,revision:0,coins:0,best:0,xp:0,story:0,ship:0,unlockedShips:[0],upgrades:{hp:0,dmg:0,fire:0,regen:0},settings:{sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,controls:true,left:false,size:1,layout:null},stats:{kills:0,waves:0,bosses:0,chain:1,wave:1},missions:{kills:0,waves:0,bosses:0},achievements:[],run:null};}
 function normalize(raw){
  if(!raw || typeof raw!=='object' || Array.isArray(raw))throw Error('Invalid save');
- const d=defaults();d.revision=integer(raw.revision,0,1e15);d.coins=integer(raw.coins,0,1e9);d.best=integer(raw.best,0,1e12);d.xp=integer(raw.xp,0,1e12);
+ const d=defaults();d.revision=integer(raw.revision,0,1e15);d.coins=integer(raw.coins,0,1e9);d.best=integer(raw.best,0,1e12);d.xp=integer(raw.xp,0,1e12);d.story=integer(raw.story,0,100);
  d.ship=integer(raw.ship,0,2);d.unlockedShips=Array.isArray(raw.unlockedShips)?raw.unlockedShips.map(x=>integer(x,0,2)):[0];
  for(const k of Object.keys(UPGRADE))d.upgrades[k]=integer(raw.upgrades?.[k],0,UPGRADE[k].cap);
  for(const k of ['sound','reduced','controls','left'])if(typeof raw.settings?.[k]==='boolean')d.settings[k]=raw.settings[k];
@@ -86,11 +111,11 @@ function entityList(list,limit,kind){
 function validateRun(r){
  if(!r||r.version!==2||!r.player||!Number.isFinite(r.player.hp)||r.player.hp<=0)return null;
  const p=r.player;
- const out={version:2,seed:integer(r.seed,0,4294967295,123456),time:finite(r.time,0,1e8),score:integer(r.score,0,1e12),earned:integer(r.earned,0,1e9),kills:integer(r.kills,0,1e9),wave:integer(r.wave,1,10000,1),spawned:integer(r.spawned,0,64),cleared:integer(r.cleared,0,64),spawn:finite(r.spawn,-10,10),breakTime:finite(r.breakTime,0,3),combo:integer(r.combo,1,8,1),comboTime:finite(r.comboTime,0,4),bestCombo:integer(r.bestCombo,1,8,1),bombs:integer(r.bombs,0,3,1),bossDone:!!r.bossDone,shipType:integer(r.shipType,0,2),player:{x:finite(p.x,16,584,300),y:finite(p.y,100,775,680),px:finite(p.x,16,584,300),py:finite(p.y,100,775,680),hp:finite(p.hp,.01,1000,100),max:finite(p.max,100,1000,100),damage:finite(p.damage,10,100,10),fire:finite(p.fire,.07,.3,.2),regen:finite(p.regen,1,6,1),shot:finite(p.shot,0,1),regenTime:finite(p.regenTime,0,5),inv:finite(p.inv,0,2),dash:finite(p.dash,0,.2),cooldown:finite(p.cooldown,0,2.4),dx:finite(p.dx,-1,1),dy:finite(p.dy,-1,1,-1),shield:finite(p.shield,0,12),spread:finite(p.spread,0,12),rapid:finite(p.rapid,0,12)},enemies:entityList(r.enemies,64,'enemy'),shots:entityList(r.shots,180,'bullet'),hostile:entityList(r.hostile,260,'hostile'),powers:entityList(r.powers,20,'power'),boss:null};
+ const out={version:2,seed:integer(r.seed,0,4294967295,123456),mode:['arcade','story'].includes(r.mode)?r.mode:'arcade',storyId:integer(r.storyId,0,100),time:finite(r.time,0,1e8),score:integer(r.score,0,1e12),earned:integer(r.earned,0,1e9),kills:integer(r.kills,0,1e9),wave:integer(r.wave,1,10000,1),spawned:integer(r.spawned,0,64),cleared:integer(r.cleared,0,64),spawn:finite(r.spawn,-10,10),breakTime:finite(r.breakTime,0,3),combo:integer(r.combo,1,8,1),comboTime:finite(r.comboTime,0,4),bestCombo:integer(r.bestCombo,1,8,1),bombs:integer(r.bombs,0,3,1),bossDone:!!r.bossDone,shipType:integer(r.shipType,0,2),player:{x:finite(p.x,16,584,300),y:finite(p.y,100,775,680),px:finite(p.x,16,584,300),py:finite(p.y,100,775,680),hp:finite(p.hp,.01,1000,100),max:finite(p.max,100,1000,100),damage:finite(p.damage,10,100,10),fire:finite(p.fire,.07,.3,.2),regen:finite(p.regen,1,6,1),shot:finite(p.shot,0,1),regenTime:finite(p.regenTime,0,5),inv:finite(p.inv,0,2),dash:finite(p.dash,0,.2),cooldown:finite(p.cooldown,0,2.4),dx:finite(p.dx,-1,1),dy:finite(p.dy,-1,1,-1),shield:finite(p.shield,0,12),spread:finite(p.spread,0,12),rapid:finite(p.rapid,0,12)},enemies:entityList(r.enemies,64,'enemy'),shots:entityList(r.shots,180,'bullet'),hostile:entityList(r.hostile,260,'hostile'),powers:entityList(r.powers,20,'power'),boss:null};
  if(r.boss&&Number.isFinite(r.boss.hp)&&r.boss.hp>0){const b=r.boss;out.boss={x:finite(b.x,55,545,300),y:finite(b.y,-100,850,150),hp:finite(b.hp,.01,1e7,200),max:finite(b.max,1,1e7,200),type:integer(b.type,0,2),t:finite(b.t,0,1e8),sineT:finite(b.sineT,0,1e8),shot:finite(b.shot,-10,10,1),phase:['enter','idle','warn','down','up'].includes(b.phase)?b.phase:'enter',timer:finite(b.timer,0,20),target:finite(b.target,60,540,300),r:45,dead:false};}
  return out;
 }
-let storageOK=true,storageNote='',conflicted=false,run=null,state='menu',page='home',lastWritten=null;
+let storageOK=true,storageNote='',conflicted=false,run=null,state='menu',page='home',lastWritten=null,lastRunConfig={mode:'arcade',storyId:0};
 function readSave(){
  let any=false;
  try{for(const key of [KEY,BACKUP,LEGACY]){const raw=localStorage.getItem(key);if(!raw)continue;any=true;try{const obj=JSON.parse(raw);if(key!==LEGACY&&obj.version!==2)continue;const d=normalize(obj);if(key===BACKUP)storageNote='Recovered your backup save. Export a fresh backup when convenient.';if(key===LEGACY)storageNote='Previous credits and upgrades imported. Welcome back, pilot.';if(key===KEY)lastWritten=raw;return d;}catch{}}}
@@ -125,9 +150,33 @@ function toast(message){$('toast').textContent=message;$('toast').hidden=false;t
 function renderProfile(){
  $('coins').textContent=fmt(data.coins);$('best').textContent=fmt(data.best);const level=Math.floor(Math.sqrt(data.xp/250))+1;
  $('rank').textContent='LVL '+level;const floor=(level-1)**2*250,next=level**2*250;$('xpFill').style.width=(100*(data.xp-floor)/(next-floor))+'%';
- $('resumeBtn').hidden=!run;$('startBtn').firstChild.textContent=run?'New flight ':'Launch flight ';
+ $('resumeBtn').hidden=!run;
+ if(run){$('resumeBtn').innerHTML=(run.mode==='story'?'Resume Op '+(run.storyId+1):'Resume Arcade')+' <span aria-hidden="true">→</span>';}
+ $('arcadeBtn').firstChild.textContent=run?.mode==='arcade'?'New Arcade ':'Arcade ';
  $('missions').replaceChildren();
  for(const m of MISSIONS.slice(0,2)){const progress=data.missions[m.key]%m.goal;const el=document.createElement('div');el.className='mission';el.innerHTML='<div class="mission-label"><span></span><strong></strong></div><div class="track"><i></i></div>';el.querySelector('span').textContent=m.label.toUpperCase();el.querySelector('strong').textContent=progress+' / '+m.goal+' · +'+m.reward+' C';el.querySelector('i').style.width=progress/m.goal*100+'%';$('missions').append(el);}
+}
+function renderCampaign(){
+ $('campaignList').replaceChildren();
+ CAMPAIGN.forEach((op, i) => {
+  const el = document.createElement('div'); el.className = 'upgrade';
+  el.innerHTML = '<div class="upgrade-icon">★</div><div><h3></h3><p></p></div><button></button>';
+  el.querySelector('h3').textContent = op.name;
+  el.querySelector('p').textContent = op.desc;
+  const btn = el.querySelector('button');
+  if (i > data.story) {
+   btn.textContent = 'LOCKED'; btn.disabled = true; el.style.opacity = '0.5';
+  } else if (i < data.story) {
+   btn.textContent = 'REPLAY';
+   btn.onclick = () => {unlockAudio();if(run) confirmAction('Replace saved flight?','Starting over replaces your current flight.','Start operation', ()=>newRun('story', i)); else newRun('story', i);};
+   const span = document.createElement('span'); span.className = 'level'; span.textContent = 'DONE';
+   el.querySelector('h3').append(span);
+  } else {
+   btn.textContent = 'PLAY (+' + fmt(op.reward) + ' C)'; btn.classList.add('primary');
+   btn.onclick = () => {unlockAudio();if(run) confirmAction('Replace saved flight?','Starting over replaces your current flight.','Start operation', ()=>newRun('story', i)); else newRun('story', i);};
+  }
+  $('campaignList').append(el);
+ });
 }
 const cost=k=>Math.round(UPGRADE[k].base*1.55**data.upgrades[k]/10)*10;
 function renderShop(){
@@ -163,9 +212,9 @@ function renderShop(){
 function renderSettings(){for(const [id,k] of [['soundSetting','sound'],['effectsSetting','reduced'],['controlsSetting','controls'],['leftSetting','left']])$(id).checked=data.settings[k];$('sizeSetting').value=data.settings.size;renderSound();}
 function renderSound(){$('soundBtn').textContent='Sound: '+(data.settings.sound?'on':'off');$('soundBtn').setAttribute('aria-pressed',String(data.settings.sound));}
 function showPage(name){
- page=name;for(const p of ['home','hangar','settings'])$(p).hidden=p!==name;
+ page=name;for(const p of ['home','hangar','settings','campaignPage'])$(p).hidden=p!==name;
  $('menuHelp').hidden=name!=='home';$('play').hidden=true;for(const id of ['pauseOverlay','resultOverlay'])$(id).hidden=true;
- state='menu';clearInput();renderProfile();if(name==='hangar')renderShop();if(name==='settings')renderSettings();
+ state='menu';clearInput();renderProfile();if(name==='hangar')renderShop();if(name==='settings')renderSettings();if(name==='campaignPage')renderCampaign();
  document.querySelector('header').hidden=false;$('shell').hidden=false;$(name).scrollTop=0;
 }
 function milestone(stat,amount=1){
@@ -222,12 +271,15 @@ let keys=new Set(),pointer={id:null,x:300,y:680,active:false},stars=[];
 function random(){run.seed=(Math.imul(1664525,run.seed)+1013904223)>>>0;return run.seed/4294967296;}
 function range(a,b){return a+(b-a)*random();}
 function clearInput(){keys.clear();pointer.active=false;pointer.id=null;}
-function waveSize(){return Math.min(28,8+(run.wave-1)*2);}
-function isBossWave(){return run.wave%4===0;}
+function waveSize(){let w = run.mode==='story' ? run.wave+run.storyId*2 : run.wave; return Math.min(28,8+(w-1)*2);}
+function isBossWave(){if(run.mode==='story') return run.wave===CAMPAIGN[run.storyId].waves && CAMPAIGN[run.storyId].boss!==-1; return run.wave%4===0;}
 function announce(title,sub='',duration=2.2){waveMessage=title;waveSub=sub;waveMessageTime=duration;$('waveToast').replaceChildren(document.createTextNode(title));if(sub){const el=document.createElement('small');el.textContent=sub;$('waveToast').append(el);}}
-function newRun(){
- const u=data.upgrades;run={version:2,seed:(Date.now()^Math.floor(Math.random()*4294967295))>>>0,time:0,score:0,earned:0,kills:0,wave:1,spawned:0,cleared:0,spawn:.4,breakTime:1.4,combo:1,comboTime:0,bestCombo:1,bombs:1,bossDone:false,shipType:data.ship,player:{x:300,y:680,px:300,py:680,hp:100+u.hp*12,max:100+u.hp*12,damage:10*(1+u.dmg*.10),fire:.2/(1+u.fire*.05),regen:1+u.regen,shot:0,regenTime:0,inv:1,dash:0,cooldown:0,dx:0,dy:-1,shield:0,spread:0,rapid:0},enemies:[],shots:[],hostile:[],powers:[],boss:null};
- particles=[];labels=[];rings=[];shake=0;flash=0;save();enterFlight();announce('WAVE 01','Clear the sector. Build your chain.');sound('launch');
+function newRun(mode='arcade', storyId=0){
+ const u=data.upgrades;run={version:2,seed:(Date.now()^Math.floor(Math.random()*4294967295))>>>0,mode,storyId,time:0,score:0,earned:0,kills:0,wave:1,spawned:0,cleared:0,spawn:.4,breakTime:1.4,combo:1,comboTime:0,bestCombo:1,bombs:1,bossDone:false,shipType:data.ship,player:{x:300,y:680,px:300,py:680,hp:100+u.hp*12,max:100+u.hp*12,damage:10*(1+u.dmg*.10),fire:.2/(1+u.fire*.05),regen:1+u.regen,shot:0,regenTime:0,inv:1,dash:0,cooldown:0,dx:0,dy:-1,shield:0,spread:0,rapid:0},enemies:[],shots:[],hostile:[],powers:[],boss:null};
+ particles=[];labels=[];rings=[];shake=0;flash=0;save();enterFlight();
+ if(mode==='story') announce(CAMPAIGN[storyId].name, 'Objective: '+CAMPAIGN[storyId].desc, 3.5);
+ else announce('WAVE 01','Clear the sector. Build your chain.');
+ sound('launch');
 }
 function enterFlight(){
  if(conflicted)return;
@@ -237,21 +289,38 @@ function enterFlight(){
 }
 function resumeFlight(){if(!run)return;enterFlight();announce('BACK IN FLIGHT','Your checkpoint is restored.',1.5);sound('resume');}
 function pause(){if(state!=='playing')return;state='paused';clearInput();save();$('pauseOverlay').hidden=false;$('continueBtn').focus();sound('pause');}
-function finish(){
+function finish(victory=false){
  if(state!=='playing')return;
- const result={score:run.score,earned:run.earned,wave:run.wave,combo:run.bestCombo};
- const record=result.score>0&&result.score>=data.best;data.best=Math.max(data.best,result.score);burst(run.player.x,run.player.y,'#59e8f5',38);sound('damage');sound('kill');
+ const p=run.player, result={score:run.score,earned:run.earned,wave:run.wave,combo:run.bestCombo};
+ let title = 'Flight complete.', sub = 'Every flight makes you stronger.';
+ 
+ if(victory){
+  title = 'MISSION ACCOMPLISHED'; sub = 'Sector secured. Objective complete.';
+  if(run.mode==='story' && data.story===run.storyId){
+   data.story++; const rew=CAMPAIGN[run.storyId].reward; earn(rew, 100); result.earned+=rew;
+   sub = `Sector secured. First clear bonus: +${fmt(rew)} C.`;
+  }
+  burst(p.x,p.y,'#8cf2be',45); sound('reward');
+ }else{
+  if(result.score>0 && result.score>=data.best) title = 'New personal best.';
+  data.best = Math.max(data.best, result.score);
+  burst(p.x,p.y,'#ff627c',38); sound('damage'); sound('kill');
+ }
+ 
+ lastRunConfig = {mode: run.mode, storyId: run.storyId};
  run=null;state='over';clearInput();save();$('flightControls').hidden=true;$('bossHud').hidden=true;
  $('finalScore').textContent=fmt(result.score);$('earnedCoins').textContent='+'+fmt(result.earned);$('finalWave').textContent=result.wave;$('finalCombo').textContent='×'+result.combo;
- $('resultTitle').textContent=record?'New personal best.':'Flight complete.';$('resultSub').textContent='All earned credits are banked. Tune your ship and go again.';$('resultOverlay').hidden=false;$('restartBtn').focus();
+ $('resultTitle').textContent=title;$('resultSub').textContent=sub;$('resultOverlay').hidden=false;$('restartBtn').focus();
 }
 function spawnEnemy(){
- const type=run.wave===1?(run.spawned%4===3?1:0):Math.floor(random()*Math.min(4,2+Math.floor(run.wave/3)));
- const x=run.wave===1&&run.spawned<3?[300,210,390][run.spawned]:range(40,560),hp=(type===2?36:14)+Math.min(250,run.wave*2.2);const e={x,y:-30,px:x,py:-30,baseX:x,vx:0,vy:type===3?250:type===2?62:90,r:type===2?21:type===3?13:17,type,hp,max:hp,t:0,shot:range(1.2,2.6),value:type===2?25:10,dead:false};
+ let effWave = run.mode==='story' ? run.wave+run.storyId*2 : run.wave;
+ const type=effWave===1?(run.spawned%4===3?1:0):Math.floor(random()*Math.min(4,2+Math.floor(effWave/3)));
+ const x=effWave===1&&run.spawned<3?[300,210,390][run.spawned]:range(40,560),hp=(type===2?36:14)+Math.min(250,effWave*2.2);const e={x,y:-30,px:x,py:-30,baseX:x,vx:0,vy:type===3?250+effWave*10:type===2?62:90,r:type===2?21:type===3?13:17,type,hp,max:hp,t:0,shot:range(1.2,2.6),value:type===2?25:10,dead:false};
  run.enemies.push(e);run.spawned++;
 }
 function spawnBoss(){
- const type=(Math.floor(run.wave/4)-1)%3,max=800+Math.floor(run.wave/4)*400;
+ const type = run.mode==='story' ? CAMPAIGN[run.storyId].boss : (Math.floor(run.wave/4)-1)%3;
+ const max = run.mode==='story' ? 800+run.storyId*600 : 800+Math.floor(run.wave/4)*400;
  run.boss={x:300,y:-65,hp:max,max,type,t:0,sineT:0,shot:0.5,phase:'enter',timer:0,target:300,r:45,dead:false};
  run.hostile=[];announce('BOSS INBOUND',['SENTINEL · Find the gaps.','HIVE MIND · Stay on the move.','REAPER · Watch the dive warning.'][type],2.5);sound('warning');
 }
@@ -283,7 +352,7 @@ function hitPlayer(damage){
  const p=run.player;if(p.inv>0||p.dash>0)return;
  if(p.shield>0){p.shield=0;p.inv=.8;ring(p.x,p.y,'#8cf2be',60);sound('shield');return;}
  p.hp=Math.max(0,p.hp-damage);p.inv=1;run.combo=1;run.comboTime=0;shake=data.settings.reduced?0:.2;flash=data.settings.reduced?0:.12;burst(p.x,p.y,'#ff627c',15);sound('damage');dirty=true;
- if(p.hp<=0)finish();
+ if(p.hp<=0)finish(false);
 }
 function killEnemy(e){
  if(!run||e.dead)return;e.dead=true;run.kills++;run.cleared++;
@@ -301,8 +370,10 @@ function killEnemy(e){
 function damageBoss(damage){
  const b=run?.boss;if(!b||b.dead||b.phase==='enter')return;b.hp-=damage;
  if(b.hp>0){sound('hit');return;}
- b.dead=true;run.score+=500*run.combo;earn(65+Math.floor(run.wave/4)*10,70);run.bossDone=true;run.bombs=Math.min(3,run.bombs+1);
- burst(b.x,b.y,'#ffad5b',65);ring(b.x,b.y,'#ffad5b',230);floatText(b.x,b.y,'BOSS DOWN · +'+(65+Math.floor(run.wave/4)*10)+' C','#ffad5b');run.hostile=[];sound('boss');sound('reward');milestone('bosses');data.best=Math.max(data.best,run.score);dirty=true;
+ b.dead=true;run.score+=500*run.combo;
+ const bossReward = run.mode==='story' ? 150+run.storyId*30 : 65+Math.floor(run.wave/4)*10;
+ earn(bossReward,70);run.bossDone=true;run.bombs=Math.min(3,run.bombs+1);
+ burst(b.x,b.y,'#ffad5b',65);ring(b.x,b.y,'#ffad5b',230);floatText(b.x,b.y,'BOSS DOWN · +'+bossReward+' C','#ffad5b');run.hostile=[];sound('boss');sound('reward');milestone('bosses');data.best=Math.max(data.best,run.score);dirty=true;
 }
 function dash(){
  if(state!=='playing'||!run)return;if(run.player.cooldown>0){sound('empty');return;}const p=run.player;
@@ -316,11 +387,13 @@ function emp(){
  if(run.boss&&run.boss.phase!=='enter')damageBoss(85*run.player.damage/10);ring(run.player.x,run.player.y,'#ffad5b',850);shake=data.settings.reduced?0:.18;sound('emp');dirty=true;save();updateHUD();
 }
 function completeWave(){
- const wave=run.wave;earn(12+Math.min(100,wave*3),20);milestone('waves');
+ const waveReward=run.mode==='story'?20+run.storyId*10:12+Math.min(100,run.wave*3);
+ earn(waveReward,20);milestone('waves');
  run.player.hp=Math.min(run.player.max,run.player.hp+8);run.player.inv=1.3;run.hostile=[];
  run.wave++;run.spawned=0;run.cleared=0;run.spawn=.3;run.breakTime=2.4;run.boss=null;run.bossDone=false;
  data.stats.wave=Math.max(data.stats.wave,run.wave);checkAchievements();
- announce('SECTOR CLEAR · +'+(12+Math.min(100,wave*3))+' C','Next: '+(isBossWave()?'boss encounter':'wave '+String(run.wave).padStart(2,'0'))+' · +8 HP');sound('wave');save();
+ const nextTxt = run.mode==='story' ? (isBossWave()?'Boss encounter':'Wave '+run.wave) : 'Next: '+(isBossWave()?'boss encounter':'wave '+String(run.wave).padStart(2,'0'));
+ announce('SECTOR CLEAR · +'+waveReward+' C', nextTxt+' · +8 HP');sound('wave');save();
 }
 function segmentHit(ax,ay,bx,by,cx,cy,r){const dx=bx-ax,dy=by-ay,d=dx*dx+dy*dy,t=d?clamp(((cx-ax)*dx+(cy-ay)*dy)/d,0,1):0;return (ax+t*dx-cx)**2+(ay+t*dy-cy)**2<=r*r;}
 function collisions(){
@@ -373,12 +446,12 @@ function tick(dt){
   sound('shot');
  }
  if(run.comboTime>0){run.comboTime=Math.max(0,run.comboTime-dt);if(run.comboTime===0)run.combo=1;}
- if(run.breakTime>0){run.breakTime=Math.max(0,run.breakTime-dt);if(run.breakTime===0)announce('WAVE '+String(run.wave).padStart(2,'0'),isBossWave()?'Boss sector':'Keep the chain alive.',1.3);}
+ if(run.breakTime>0){run.breakTime=Math.max(0,run.breakTime-dt);if(run.breakTime===0)announce(run.mode==='story'?'OP '+(run.storyId+1)+' - W'+run.wave:'WAVE '+String(run.wave).padStart(2,'0'),isBossWave()?'Boss sector':'Keep the chain alive.',1.3);}
  else if(isBossWave()){if(!run.boss&&!run.bossDone)spawnBoss();updateBoss(dt);}
  else {run.spawn-=dt;if(run.spawn<=0&&run.spawned<waveSize()){spawnEnemy();run.spawn=Math.max(.32,.8-run.wave*.018);}}
  for(const e of run.enemies){if(e.dead)continue;e.px=e.x;e.py=e.y;e.t+=dt;e.y+=e.vy*dt;
   if(e.type===1)e.x=clamp(e.baseX+Math.sin(e.t*3)*55,22,578);
-  if(e.type===3){e.x=clamp(e.baseX+Math.sin(e.t*4)*120, 18, 582); e.vy=250+run.wave*10;}
+  if(e.type===3){e.x=clamp(e.baseX+Math.sin(e.t*4)*120, 18, 582); e.vy=250+(run.mode==='story'?run.wave+run.storyId*2:run.wave)*10;}
   e.shot-=dt;if(e.shot<=0&&e.y>20&&e.y<620){
    if(e.type===2){shootHostile(e.x,e.y+15,0,260,6,25);e.shot=2.2;}
    else if(e.type!==3){const a=Math.atan2(p.y-e.y,p.x-e.x);shootHostile(e.x,e.y+15,Math.cos(a)*130,Math.sin(a)*130,4,12);e.shot=2.8;}
@@ -388,13 +461,19 @@ function tick(dt){
  for(const list of [run.shots,run.hostile,run.powers])for(const s of list){s.px=s.x;s.py=s.y;s.x+=s.vx*dt;s.y+=s.vy*dt;if(s.y< -140||s.y>900||s.x< -140||s.x>740)s.dead=true;}
  collisions();if(!run||state!=='playing')return;
  run.enemies=run.enemies.filter(e=>!e.dead);run.shots=run.shots.filter(e=>!e.dead);run.hostile=run.hostile.filter(e=>!e.dead);run.powers=run.powers.filter(e=>!e.dead);
- if(run.breakTime===0&&((isBossWave()&&run.bossDone)||(!isBossWave()&&run.spawned>=waveSize()&&run.enemies.length===0)))completeWave();
+ if(run.breakTime===0&&((isBossWave()&&run.bossDone)||(!isBossWave()&&run.spawned>=waveSize()&&run.enemies.length===0))){
+  const isFinal = run.mode==='story'&&run.wave===CAMPAIGN[run.storyId].waves;
+  if(isFinal) finish(true); else completeWave();
+ }
  saveTimer+=dt;if(saveTimer>=1){saveTimer=0;save();dirty=false;}
  hudTimer+=dt;if(hudTimer>=.1){hudTimer=0;updateHUD();}
 }
 function updateHUD(){
  if(!run)return;const p=run.player;
- $('score').textContent=fmt(run.score);$('wave').textContent='WAVE '+String(run.wave).padStart(2,'0');$('waveProgress').textContent=isBossWave()?'BOSS':run.cleared+' / '+waveSize();$('waveType').textContent=isBossWave()?'BREAK THEIR DEFENSES':'CLEAR THE SECTOR';
+ $('score').textContent=fmt(run.score);
+ $('wave').textContent = run.mode==='story' ? 'OP '+(run.storyId+1)+' - W'+run.wave : 'WAVE '+String(run.wave).padStart(2,'0');
+ $('waveProgress').textContent=isBossWave()?'BOSS':run.cleared+' / '+waveSize();
+ $('waveType').textContent=run.mode==='story' ? CAMPAIGN[run.storyId].name.split(':')[1].trim() : (isBossWave()?'BREAK THEIR DEFENSES':'CLEAR THE SECTOR');
  $('combo').firstChild.textContent='CHAIN ×'+run.combo;$('comboFill').style.width=100*run.comboTime/3.2+'%';$('hp').textContent=Math.ceil(p.hp)+' / '+p.max+' HP';$('hpFill').style.width=100*p.hp/p.max+'%';$('hpFill').style.background=p.hp/p.max<.3?'#ff627c':'#59e8f5';
  $('dashText').textContent=p.cooldown>0?p.cooldown.toFixed(1)+'s':'SPACE · READY';$('dashBtn').disabled=p.cooldown>0;$('empText').textContent='B · '+run.bombs+' CHARGE'+(run.bombs===1?'':'S');$('empBtn').disabled=run.bombs<=0;
  $('bossHud').hidden=!run.boss||run.boss.dead;if(run.boss){$('bossName').textContent=['SENTINEL','HIVE MIND','REAPER'][run.boss.type];$('bossFill').style.width=clamp(run.boss.hp/run.boss.max*100,0,100)+'%';}
@@ -534,8 +613,9 @@ let pendingAction=null,confirmReturn=null;
 function confirmAction(title,text,label,action){confirmReturn=document.activeElement;pendingAction=action;$('confirmTitle').textContent=title;$('confirmText').textContent=text;$('confirmBtn').textContent=label;$('confirmOverlay').hidden=false;$('cancelBtn').focus();}
 $('confirmBtn').onclick=()=>{const action=pendingAction;pendingAction=null;$('confirmOverlay').hidden=true;action?.();};
 $('cancelBtn').onclick=()=>{pendingAction=null;$('confirmOverlay').hidden=true;confirmReturn?.focus();};
-$('startBtn').onclick=()=>{unlockAudio();if(run)confirmAction('Replace saved flight?','Starting over replaces your current flight. All earned credits and upgrades stay yours.','Start new flight',newRun);else newRun();};
-$('resumeBtn').onclick=resumeFlight;$('restartBtn').onclick=newRun;$('hangarBtn').onclick=()=>showPage('hangar');$('resultShopBtn').onclick=()=>showPage('hangar');$('resultHomeBtn').onclick=()=>showPage('home');
+$('arcadeBtn').onclick=()=>{unlockAudio();if(run)confirmAction('Replace saved flight?','Starting over replaces your current flight.','Start arcade',()=>newRun('arcade'));else newRun('arcade');};
+$('campaignBtn').onclick=()=>showPage('campaignPage');
+$('resumeBtn').onclick=resumeFlight;$('restartBtn').onclick=()=>newRun(lastRunConfig.mode, lastRunConfig.storyId);$('hangarBtn').onclick=()=>showPage('hangar');$('resultShopBtn').onclick=()=>showPage('hangar');$('resultHomeBtn').onclick=()=>showPage('home');
 $('settingsBtn').onclick=()=>showPage('settings');document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>showPage('home'));
 $('pauseBtn').onclick=pause;$('continueBtn').onclick=resumeFlight;$('saveExitBtn').onclick=()=>{save();showPage('home');$('resumeBtn').focus();};
 function toggleSound(){data.settings.sound=!data.settings.sound;unlockAudio();save();renderSound();if(page==='settings')renderSettings();if(data.settings.sound)sound('reward');}
