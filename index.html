@@ -96,11 +96,12 @@ const CAMPAIGN = [
  {name:'OP 7: CHALLENGE', desc:'Defeat the Annihilator.', waves:10, boss:3, reward:25000}
 ];
 
-function defaults(){return {version:2,revision:0,coins:0,best:0,xp:0,story:0,ship:0,unlockedShips:[0],upgrades:{hp:0,dmg:0,fire:0,regen:0},settings:{sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,controls:true,left:false,size:1,layout:null},stats:{kills:0,waves:0,bosses:0,chain:1,wave:1},missions:{kills:0,waves:0,bosses:0},achievements:[],run:null};}
+function defaults(){return {version:2,revision:0,coins:0,best:0,xp:0,story:0,ship:0,unlockedShips:[0],wingmen:false,upgrades:{hp:0,dmg:0,fire:0,regen:0},settings:{sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,controls:true,left:false,size:1,layout:null},stats:{kills:0,waves:0,bosses:0,chain:1,wave:1},missions:{kills:0,waves:0,bosses:0},achievements:[],run:null};}
 function normalize(raw){
  if(!raw || typeof raw!=='object' || Array.isArray(raw))throw Error('Invalid save');
  const d=defaults();d.revision=integer(raw.revision,0,1e15);d.coins=integer(raw.coins,0,1e9);d.best=integer(raw.best,0,1e12);d.xp=integer(raw.xp,0,1e12);d.story=integer(raw.story,0,100);
  d.ship=integer(raw.ship,0,2);d.unlockedShips=Array.isArray(raw.unlockedShips)?raw.unlockedShips.map(x=>integer(x,0,2)):[0];
+ d.wingmen=!!raw.wingmen;
  for(const k of Object.keys(UPGRADE))d.upgrades[k]=integer(raw.upgrades?.[k],0,UPGRADE[k].cap);
  for(const k of ['sound','reduced','controls','left'])if(typeof raw.settings?.[k]==='boolean')d.settings[k]=raw.settings[k];
  d.settings.size=finite(raw.settings?.size??raw.settings?.btnScale,.8,1.4,1);
@@ -125,7 +126,7 @@ function entityList(list,limit,kind){
 function validateRun(r){
  if(!r||r.version!==2||!r.player||!Number.isFinite(r.player.hp)||r.player.hp<=0)return null;
  const p=r.player;
- const out={version:2,seed:integer(r.seed,0,4294967295,123456),mode:['arcade','story'].includes(r.mode)?r.mode:'arcade',storyId:integer(r.storyId,0,100),time:finite(r.time,0,1e8),score:integer(r.score,0,1e12),earned:integer(r.earned,0,1e9),kills:integer(r.kills,0,1e9),wave:integer(r.wave,1,10000,1),spawned:integer(r.spawned,0,64),cleared:integer(r.cleared,0,64),spawn:finite(r.spawn,-10,10),breakTime:finite(r.breakTime,0,3),combo:integer(r.combo,1,8,1),comboTime:finite(r.comboTime,0,4),bestCombo:integer(r.bestCombo,1,8,1),bombs:integer(r.bombs,0,3,1),bossDone:!!r.bossDone,shipType:integer(r.shipType,0,2),player:{x:finite(p.x,16,584,300),y:finite(p.y,100,775,680),px:finite(p.x,16,584,300),py:finite(p.y,100,775,680),hp:finite(p.hp,.01,10000,100),max:finite(p.max,100,10000,100),damage:finite(p.damage,10,100,10),fire:finite(p.fire,.07,.3,.2),regen:finite(p.regen,1,6,1),shot:finite(p.shot,0,1),regenTime:finite(p.regenTime,0,5),inv:finite(p.inv,0,2),dash:finite(p.dash,0,.2),cooldown:finite(p.cooldown,0,2.4),dx:finite(p.dx,-1,1),dy:finite(p.dy,-1,1,-1),shield:finite(p.shield,0,12),spread:finite(p.spread,0,12),rapid:finite(p.rapid,0,12)},enemies:entityList(r.enemies,64,'enemy'),shots:entityList(r.shots,180,'bullet'),hostile:entityList(r.hostile,260,'hostile'),powers:entityList(r.powers,20,'power'),boss:null};
+ const out={version:2,seed:integer(r.seed,0,4294967295,123456),mode:['arcade','story'].includes(r.mode)?r.mode:'arcade',storyId:integer(r.storyId,0,100),time:finite(r.time,0,1e8),score:integer(r.score,0,1e12),earned:integer(r.earned,0,1e9),kills:integer(r.kills,0,1e9),wave:integer(r.wave,1,10000,1),spawned:integer(r.spawned,0,64),cleared:integer(r.cleared,0,64),spawn:finite(r.spawn,-10,10),breakTime:finite(r.breakTime,0,3),combo:integer(r.combo,1,8,1),comboTime:finite(r.comboTime,0,4),bestCombo:integer(r.bestCombo,1,8,1),bombs:integer(r.bombs,0,3,1),bossDone:!!r.bossDone,shipType:integer(r.shipType,0,2),player:{x:finite(p.x,16,584,300),y:finite(p.y,100,775,680),px:finite(p.x,16,584,300),py:finite(p.y,100,775,680),hp:finite(p.hp,.01,10000,100),max:finite(p.max,100,10000,100),damage:finite(p.damage,10,100,10),fire:finite(p.fire,.07,.3,.2),regen:finite(p.regen,1,6,1),shot:finite(p.shot,0,1),regenTime:finite(p.regenTime,0,5),inv:finite(p.inv,0,2),dash:finite(p.dash,0,.2),cooldown:finite(p.cooldown,0,2.4),dx:finite(p.dx,-1,1),dy:finite(p.dy,-1,1,-1),shield:finite(p.shield,0,12),spread:finite(p.spread,0,12),rapid:finite(p.rapid,0,12),wingmen:!!p.wingmen},enemies:entityList(r.enemies,64,'enemy'),shots:entityList(r.shots,400,'bullet'),hostile:entityList(r.hostile,260,'hostile'),powers:entityList(r.powers,20,'power'),boss:null};
  if(r.boss&&Number.isFinite(r.boss.hp)&&r.boss.hp>0){const b=r.boss;out.boss={x:finite(b.x,55,545,300),y:finite(b.y,-100,850,150),hp:finite(b.hp,.01,1e7,200),max:finite(b.max,1,1e7,200),type:integer(b.type,0,3),t:finite(b.t,0,1e8),sineT:finite(b.sineT,0,1e8),shot:finite(b.shot,-10,10,1),phase:['enter','idle','warn','down','up'].includes(b.phase)?b.phase:'enter',timer:finite(b.timer,0,20),target:finite(b.target,60,540,300),r:45,bombTimer:finite(b.bombTimer,0,5,5),dead:false};}
  return out;
 }
@@ -234,6 +235,13 @@ function renderShop(){
   else{b.textContent=fmt(s.cost)+' C';b.disabled=data.coins<s.cost;b.onclick=()=>{if(data.coins>=s.cost){data.coins-=s.cost;data.unlockedShips.push(s.id);data.ship=s.id;save();renderShop();renderProfile();sound('reward');toast(s.name+' UNLOCKED');}};}
   $('fleet').append(el);
  }
+ const wingEl=document.createElement('div');wingEl.className='upgrade';
+ wingEl.innerHTML='<div class="upgrade-icon" aria-hidden="true">⋈</div><div><h3>WINGMEN SQUADRON</h3><p>Two escort drones that mirror your weapons (50% DMG).</p></div><button></button>';
+ const wb=wingEl.querySelector('button');
+ if(data.wingmen){wb.textContent='EQUIPPED';wb.disabled=true;}
+ else{wb.textContent='150,000 C';wb.disabled=data.coins<150000;wb.onclick=()=>{if(data.coins>=150000){data.coins-=150000;data.wingmen=true;save();renderShop();renderProfile();sound('reward');toast('WINGMEN UNLOCKED');}};}
+ $('fleet').append(wingEl);
+ 
  $('achievements').replaceChildren();
  for(const a of ACHIEVEMENTS){const el=document.createElement('div');el.className='achievement'+(data.achievements.includes(a.id)?' done':'');const name=document.createElement('strong');name.textContent=(data.achievements.includes(a.id)?'✓ ':'◇ ')+a.name;const desc=document.createElement('span');desc.textContent=a.desc;el.append(name,desc);$('achievements').append(el);}
 }
@@ -307,7 +315,7 @@ function isBossWave(){if(run.mode==='story') return run.wave===CAMPAIGN[run.stor
 function announce(title,sub='',duration=2.2){waveMessage=title;waveSub=sub;waveMessageTime=duration;$('waveToast').replaceChildren(document.createTextNode(title));if(sub){const el=document.createElement('small');el.textContent=sub;$('waveToast').append(el);}}
 function newRun(mode='arcade', storyId=0, startWave=1){
  const u=data.upgrades;
- run={version:2,seed:(Date.now()^Math.floor(Math.random()*4294967295))>>>0,mode,storyId,time:0,score:0,earned:0,kills:0,wave:mode==='arcade'?parseInt(startWave):1,spawned:0,cleared:0,spawn:.4,breakTime:1.4,combo:1,comboTime:0,bestCombo:1,bombs:1,bossDone:false,shipType:data.ship,player:{x:300,y:680,px:300,py:680,hp:100+u.hp*12,max:100+u.hp*12,damage:10*(1+u.dmg*.10),fire:.2/(1+u.fire*.05),regen:1+u.regen,shot:0,regenTime:0,inv:1,dash:0,cooldown:0,dx:0,dy:-1,shield:0,spread:0,rapid:0},enemies:[],shots:[],hostile:[],powers:[],boss:null};
+ run={version:2,seed:(Date.now()^Math.floor(Math.random()*4294967295))>>>0,mode,storyId,time:0,score:0,earned:0,kills:0,wave:mode==='arcade'?parseInt(startWave):1,spawned:0,cleared:0,spawn:.4,breakTime:1.4,combo:1,comboTime:0,bestCombo:1,bombs:1,bossDone:false,shipType:data.ship,player:{x:300,y:680,px:300,py:680,hp:100+u.hp*12,max:100+u.hp*12,damage:10*(1+u.dmg*.10),fire:.2/(1+u.fire*.05),regen:1+u.regen,shot:0,regenTime:0,inv:1,dash:0,cooldown:0,dx:0,dy:-1,shield:0,spread:0,rapid:0,wingmen:data.wingmen},enemies:[],shots:[],hostile:[],powers:[],boss:null};
  particles=[];labels=[];rings=[];shake=0;flash=0;save();enterFlight();
  if(mode==='story') announce(CAMPAIGN[storyId].name, 'Objective: '+CAMPAIGN[storyId].desc, 3.5);
  else announce('WAVE '+String(run.wave).padStart(2,'0'), run.wave>1?'Sector jump complete.':'Clear the sector. Build your chain.');
@@ -484,22 +492,30 @@ function tick(dt){
  p.shot-=dt;if(p.shot<=0){
   p.shot=p.fire*(p.rapid>0?.62:1);
   const t = run.shipType||0;
-  let spread = p.spread>0?[-.2,0,.2]:[0];
-  if(t===1) spread = p.spread>0?[-.3,-.15,0,.15,.3]:[-.15,0,.15];
-  if(t===2){
-   let targets=run.enemies.filter(e=>!e.dead&&e.y>0);
-   if(run.boss&&!run.boss.dead&&run.boss.phase!=='enter')targets.push(run.boss);
-   targets.sort((a,b)=>Math.hypot(p.x-a.x,p.y-a.y)-Math.hypot(p.x-b.x,p.y-b.y));
-   const angles=p.spread>0?[-.25,0,.25]:[-.15,.15];
-   angles.forEach((offset,i)=>{
-    let vx=Math.sin(offset)*850,vy=-Math.cos(offset)*850,dmg=p.damage*0.8;
-    let target=targets[i%targets.length]||targets[0];
-    if(target&&Math.hypot(p.x-target.x,p.y-target.y)<550){let a=Math.atan2(target.y-(p.y-19),target.x-p.x);vx=Math.cos(a)*1050;vy=Math.sin(a)*1050;}
-    if(run.shots.length<180)run.shots.push({x:p.x+(offset*60),y:p.y-19,px:p.x+(offset*60),py:p.y-19,vx,vy,r:3.5,damage:dmg,dead:false});
-   });
-  } else {
-   spread.forEach(a=>{if(run.shots.length<180)run.shots.push({x:p.x,y:p.y-19,px:p.x,py:p.y-19,vx:Math.sin(a)*700,vy:-Math.cos(a)*700,r:3,damage:p.damage,dead:false});});
-  }
+  let positions = [{x: p.x, y: p.y, wing: false}];
+  if(p.wingmen) { positions.push({x: p.x - 38, y: p.y + 15, wing: true}); positions.push({x: p.x + 38, y: p.y + 15, wing: true}); }
+  
+  positions.forEach(pos => {
+      let spread = p.spread>0?[-.2,0,.2]:[0];
+      if(t===1) spread = p.spread>0?[-.3,-.15,0,.15,.3]:[-.15,0,.15];
+      if(t===2){
+       let targets=run.enemies.filter(e=>!e.dead&&e.y>0);
+       if(run.boss&&!run.boss.dead&&run.boss.phase!=='enter')targets.push(run.boss);
+       targets.sort((a,b)=>Math.hypot(pos.x-a.x,pos.y-a.y)-Math.hypot(pos.x-b.x,pos.y-b.y));
+       const angles=p.spread>0?[-.25,0,.25]:[-.15,.15];
+       angles.forEach((offset,i)=>{
+        let vx=Math.sin(offset)*850,vy=-Math.cos(offset)*850,dmg=(p.damage*0.8)*(pos.wing?0.5:1);
+        let target=targets[i%targets.length]||targets[0];
+        if(target&&Math.hypot(pos.x-target.x,pos.y-target.y)<550){let a=Math.atan2(target.y-(pos.y-19),target.x-pos.x);vx=Math.cos(a)*1050;vy=Math.sin(a)*1050;}
+        if(run.shots.length<400)run.shots.push({x:pos.x+(offset*60),y:pos.y-19,px:pos.x+(offset*60),py:pos.y-19,vx,vy,r:3.5,damage:dmg,dead:false});
+       });
+      } else {
+       spread.forEach(a=>{
+        let dmg = p.damage * (pos.wing?0.5:1);
+        if(run.shots.length<400)run.shots.push({x:pos.x,y:pos.y-19,px:pos.x,py:pos.y-19,vx:Math.sin(a)*700,vy:-Math.cos(a)*700,r:3,damage:dmg,dead:false});
+       });
+      }
+  });
   sound('shot');
  }
  if(run.comboTime>0){run.comboTime=Math.max(0,run.comboTime-dt);if(run.comboTime===0)run.combo=1;}
@@ -718,7 +734,10 @@ function render(dt){
     ctx.fillStyle='#ffe0d4';ctx.beginPath();ctx.arc(s.x,s.y,s.r*.45,0,Math.PI*2);ctx.fill();
    }
   }
+  
+  if(run.player.wingmen){drawShip(run.player.x-38,run.player.y+15,run.shipType,9);drawShip(run.player.x+38,run.player.y+15,run.shipType,9);}
   drawShip(run.player.x,run.player.y,run.shipType);
+  
   const buffs=['shield','spread','rapid'].filter(k=>run.player[k]>0);ctx.font='10px Consolas,monospace';ctx.textAlign='center';ctx.fillStyle='#8cf2be';buffs.forEach((k,i)=>ctx.fillText(k.toUpperCase()+' '+Math.ceil(run.player[k])+'s',W/2,H-18-i*15));
  }
  for(const p of particles){ctx.globalAlpha=clamp(p.life/.4,0,1);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,2,2);}ctx.globalAlpha=1;
@@ -768,7 +787,7 @@ $('settingsBtn').onclick=()=>showPage('settings');document.querySelectorAll('[da
 $('pauseBtn').onclick=pause;$('continueBtn').onclick=resumeFlight;$('saveExitBtn').onclick=()=>{save();showPage('home');$('resumeBtn').focus();};
 function toggleSound(){data.settings.sound=!data.settings.sound;unlockAudio();save();renderSound();if(page==='settings')renderSettings();if(data.settings.sound)sound('reward');}
 $('soundBtn').onclick=toggleSound;
-for(const [id,key] of [['soundSetting','sound'],['effectsSetting','reduced'],['controlsSetting','controls'],['leftSetting','left']])$(id).onchange=()=>{data.settings[key]=$(id).checked;if(key==='sound')unlockAudio();if(key==='left')data.settings.layout=null;save();renderSound();positionControls();};
+for(const [id,key] of [['soundSetting','sound'],['effectsSetting','reduced'],['controlsSetting','controls'],['leftSetting','left']])$(id).onchange=()=>{data.settings[key]=$(id).checked;if(key==='sound')unlockAudio();if(key==='left')data.settings.layout=null;save();renderSound();positionControls();if(key==='sound')sound('reward');};
 $('sizeSetting').oninput=()=>{data.settings.size=Number($('sizeSetting').value);positionControls();};$('sizeSetting').onchange=save;
 $('defaultLayoutBtn').onclick=()=>{data.settings.layout=null;data.settings.size=1;data.settings.left=false;save();renderSettings();toast('Default control layout restored.');};
 $('editLayoutBtn').onclick=()=>{
