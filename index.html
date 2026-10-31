@@ -33,7 +33,7 @@
 <div class="brief"><h1><span>NEON</span><small>STARFIGHTER</small></h1><p class="tagline">One more wave. Make it count.</p>
 <div id="waveSelectWrap" hidden style="margin-bottom:15px;background:#081824;border:1px solid var(--line);padding:12px 16px;border-radius:4px;">
   <label style="display:flex;justify-content:space-between;align-items:center;font:10px var(--mono);color:var(--cyan);margin-bottom:12px;letter-spacing:1px"><span>ARCADE START WAVE</span><strong id="waveStartVal" style="color:var(--orange);font-size:15px;font-weight:400">1</strong></label>
-  <input type="range" id="waveStartSelect" min="0" max="0" step="50" value="0" style="width:100%;accent-color:var(--orange);margin:0">
+  <div id="waveGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
 </div>
 <div class="actions">
 <button class="primary" id="arcadeBtn">Arcade <span aria-hidden="true">↗</span></button>
@@ -80,6 +80,8 @@ const finite = (n,a,b,d=0) => typeof n === 'number' && Number.isFinite(n) ? clam
 const integer = (n,a,b,d=0) => Math.floor(finite(n,a,b,d));
 const fmt = n => Math.floor(n).toLocaleString('en-US');
 const KEY='neonStarfighter.v2', BACKUP=KEY+'.backup', LEGACY='neonStarfighterData';
+
+let selectedStartWave = 1;
 
 const UPGRADE={hp:{name:'Armor plating',icon:'◇',cap:9999,base:100,desc:'+12 max HP per level'},dmg:{name:'Blaster core',icon:'↟',cap:9999,base:120,desc:'+10% weapon damage per level'},fire:{name:'Overclock',icon:'»',cap:20,base:140,desc:'+5% firing speed per level'},regen:{name:'Nano bots',icon:'✧',cap:9999,base:160,desc:'+1 HP recovered every 5 seconds per level'}};
 const SHIPS=[{id:0,name:'NF-01 INTERCEPTOR',desc:'Standard issue starfighter.',cost:0,score:0},{id:1,name:'INTERCEPTOR MK.II',desc:'Built-in triple shot.',cost:100000,score:100000},{id:2,name:'PHANTOM VANGUARD',desc:'Dual auto-target lasers.',cost:300000,score:300000}];
@@ -170,13 +172,37 @@ function renderProfile(){
  
  const maxW = data.stats.wave || 1;
  $('maxWaveDisp').textContent = maxW;
- const possibleCheckpoints = Math.floor(maxW / 50) * 50;
- if(possibleCheckpoints >= 50) {
+ 
+ if (maxW >= 50) {
   $('waveSelectWrap').hidden = false;
-  $('waveStartSelect').max = possibleCheckpoints;
+  if(selectedStartWave > maxW) selectedStartWave = 1;
+  $('waveStartVal').textContent = selectedStartWave;
+  $('waveGrid').replaceChildren();
+  
+  const checkpoints = [1, 50, 100, 150, 200, 250, 300];
+  checkpoints.forEach(val => {
+   const btn = document.createElement('button');
+   btn.textContent = val;
+   btn.style.minHeight = '32px';
+   btn.style.padding = '0';
+   
+   if(val > maxW) {
+    btn.disabled = true;
+    btn.style.opacity = '0.3';
+   } else {
+    btn.onclick = () => {
+     selectedStartWave = val;
+     $('waveStartVal').textContent = val;
+     [...$('waveGrid').children].forEach(b => b.classList.remove('primary'));
+     btn.classList.add('primary');
+    };
+   }
+   if(val === selectedStartWave) btn.classList.add('primary');
+   $('waveGrid').append(btn);
+  });
  } else {
   $('waveSelectWrap').hidden = true;
-  $('waveStartSelect').value = 0;
+  selectedStartWave = 1;
  }
  
  $('resumeBtn').hidden=!run;
@@ -767,16 +793,9 @@ function confirmAction(title,text,label,action){confirmReturn=document.activeEle
 $('confirmBtn').onclick=()=>{const action=pendingAction;pendingAction=null;$('confirmOverlay').hidden=true;action?.();};
 $('cancelBtn').onclick=()=>{pendingAction=null;$('confirmOverlay').hidden=true;confirmReturn?.focus();};
 
-$('waveStartSelect').oninput = e => {
- let val = parseInt(e.target.value);
- if (val === 0) val = 1;
- $('waveStartVal').textContent = val;
-};
-
 $('arcadeBtn').onclick=()=>{
  unlockAudio();
- let sw = parseInt($('waveStartSelect').value) || 1;
- if(sw===0) sw=1;
+ let sw = selectedStartWave || 1;
  if(run)confirmAction('Replace saved flight?','Starting over replaces your current flight.','Start arcade',()=>newRun('arcade', 0, sw));
  else newRun('arcade', 0, sw);
 };
